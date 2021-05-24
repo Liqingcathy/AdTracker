@@ -10,224 +10,239 @@ import java.util.Scanner;
 
 /**
  * QueryRunner takes a list of Queries that are initialized in it's constructor
- * and provides functions that will call the various functions in the QueryJDBC class 
- * which will enable MYSQL queries to be executed. It also has functions to provide the
- * returned data from the Queries. Currently the eventHandlers in QueryFrame call these
- * functions in order to run the Queries.
+ * and provides functions that will call the various functions in the QueryJDBC
+ * class which will enable MYSQL queries to be executed. It also has functions
+ * to provide the returned data from the Queries. Currently the eventHandlers in
+ * QueryFrame call these functions in order to run the Queries.
  */
 public class QueryRunner {
-
     
-    public QueryRunner()
-    {
+    public QueryRunner() {
         this.m_jdbcData = new QueryJDBC();
         m_updateAmount = 0;
         m_queryArray = new ArrayList<>();
         m_error="";
-    
         
-        // TODO - You will need to change the queries below to match your queries.
-        
-        // You will need to put your Project Application in the below variable
-        
-        this.m_projectTeamApplication="CITYELECTION";    // THIS NEEDS TO CHANGE FOR YOUR APPLICATION
-        
-        
-        // Each row that is added to m_queryArray is a separate query. It does not work on Stored procedure calls.
-        // The 'new' Java keyword is a way of initializing the data that will be added to QueryArray. Please do not change
-        // Format for each row of m_queryArray is: (QueryText, ParamaterLabelArray[], LikeParameterArray[], IsItActionQuery, IsItParameterQuery)
-        
-        //    QueryText is a String that represents your query. It can be anything but Stored Procedure
-        //    Parameter Label Array  (e.g. Put in null if there is no Parameters in your query, otherwise put in the Parameter Names)
-        //    LikeParameter Array  is an array I regret having to add, but it is necessary to tell QueryRunner which parameter has a LIKE Clause. If you have no parameters, put in null. Otherwise put in false for parameters that don't use 'like' and true for ones that do.
-        //    IsItActionQuery (e.g. Mark it true if it is, otherwise false)
-        //    IsItParameterQuery (e.g.Mark it true if it is, otherwise false)
+        this.m_projectTeamApplication="ADOPTIMIZER";
 
-        // Hello this is a GitHub test! Hi Ben and Liqing!
-        m_queryArray.add(new QueryData("Select * from Product where product_description=?", new String [] {"product_description"}, new boolean [] {false}, false, true));   // THIS NEEDS TO CHANGE FOR YOUR APPLICATION
+        /*
+        Each row that is added to m_queryArray is a separate query. It does
+        not work on Stored procedure calls. The 'new' Java keyword is a way of
+        initializing the data that will be added to QueryArray.
+
+        Format for each row of m_queryArray is: (QueryText, ParamaterLabelArray[],
+        LikeParameterArray[], IsItActionQuery, IsItParameterQuery).
+
+        QueryText is a String that represents your query.
+            - Label Array: null if there is no parameters in your query,
+            otherwise put in the parameter names.
+            - LikeParameter Array: necessary to tell QueryRunner which parameter
+            has a LIKE Clause. If you have no parameters, put in null. Put in
+            false for parameters that don't use 'like' and true for ones that do.
+            - IsItActionQuery: mark it true if it is, otherwise false.
+            - IsItParameterQuery: mark it true if it is, otherwise false.
+        */
+
+        // Examples:
+        // m_queryArray.add(new QueryData("Select * from contact where contact_id=?",
+        // new String [] {"CONTACT_ID"}, new boolean [] {false},  false, true));
+        // m_queryArray.add(new QueryData("Select * from contact where contact_name like ?",
+        // new String [] {"CONTACT_NAME"}, new boolean [] {true}, false, true));
+        // m_queryArray.add(new QueryData("insert into contact (contact_id, contact_name, contact_salary) values (?,?,?)",
+        // new String [] {"CONTACT_ID", "CONTACT_NAME", "CONTACT_SALARY"}, new boolean [] {false, false, false}, true, true));
+
+        // Overview of products.
+        m_queryArray.add(new QueryData(
+                "SELECT " +
+                    "seller_name, " +
+                    "round(avg(product_rating), 1) AVGRATING, " +
+                    "round(avg(product_reviews), 0) AVGREVIEWS, " +
+                    "round(avg(product_price), 2) AVGPRICE " +
+                "FROM Seller " +
+                "JOIN Product USING (seller_id) " +
+                "GROUP BY seller_id " +
+                "ORDER BY AVGRATING desc, AVGREVIEWS desc, AVGPRICE;",
+                null, null, false, true));
         
-        // Allows users to catch a glimpse of the top 5 rated products in a given category (electronics, outdoors, or clothing)
-        m_queryArray.add(new QueryData("SELECT P.product_id, product_name, seller_name, " +
-            "product_description as description, product_price as price, product_rating as rating, " +
-            "product_reviews as reviews, C.manager_id, campaign_id " +
+        // Allows users to catch a glimpse of the top 5 rated products in a given
+        // category (electronics, outdoors, or clothing)
+        m_queryArray.add(new QueryData(
+            "SELECT P.product_id, product_name, seller_name, " +
+                "product_description as description, product_price as price, " +
+                "product_rating as rating, product_reviews as reviews, " +
+                "C.manager_id, campaign_id " +
             "FROM Product P Join Seller USING (seller_id) Join Campaign C USING (seller_id) " +
             "WHERE product_description LIKE ? " +
             "Order By P.product_rating DESC, P.product_reviews DESC " +
             "LIMIT 5",
             new String[] {"product_description"}, new boolean [] {true}, false, true));
-        
-        //m_queryArray.add(new QueryData("Select * from contact where contact_id=?", new String [] {"CONTACT_ID"}, new boolean [] {false},  false, true));        // THIS NEEDS TO CHANGE FOR YOUR APPLICATION
-        //m_queryArray.add(new QueryData("Select * from contact where contact_name like ?", new String [] {"CONTACT_NAME"}, new boolean [] {true}, false, true));        // THIS NEEDS TO CHANGE FOR YOUR APPLICATION
-        //m_queryArray.add(new QueryData("insert into contact (contact_id, contact_name, contact_salary) values (?,?,?)",new String [] {"CONTACT_ID", "CONTACT_NAME", "CONTACT_SALARY"}, new boolean [] {false, false, false}, true, true));// THIS NEEDS TO CHANGE FOR YOUR APPLICATION
-        
-        
-         //Overview of Top Performing Ad Campaigns and Ad Groups
-            m_queryArray.add(new QueryData(
-        		"	SELECT \r\n" + 
-        		"    campaign_id, \r\n" + 
-        		"    campaign_name, \r\n" + 
-        		"    ad_group_name, ad_group_impressions as impressions, \r\n" + 
-        		"    ad_group_clicks as clicks, ad_group_cpc as cpc, \r\n" + 
-        		"    ad_group_spends as spends, ad_group_sales as sales,\r\n" + 
-        		"    ad_group_orders as orders, \r\n" + 
-        		"    round((ad_group_orders / ad_group_clicks)*100, 2) as \"conv rate(%)\",\r\n" + 
-        		"    ad_group_acos as ACOS, ad_group_roas as ROAS\r\n" + 
-        		"FROM Campaign\r\n" + 
-        		"JOIN Ad_Group USING(campaign_id)\r\n" + 
-        		"JOIN Ad_Group_Performance USING(ad_group_id)\r\n" + 
-        		"WHERE ad_group_acos < 0.3 or ad_group_roas > 0.5 \r\n" + 
-        		"ORDER BY ad_group_acos, ad_group_id;",
-    			null, null, false, false));
-                       
-    
-    
-    //Overview of Top Performing Ad Campaigns and Ad Groups (user intput- ACOS, ROAS)(doesn't filter)
+
+        // Search for a product.
         m_queryArray.add(new QueryData(
-        		"	SELECT \r\n" + 
-        		"    campaign_id, \r\n" + 
-        		"    campaign_name, \r\n" + 
-        		"    ad_group_name, ad_group_impressions as impressions, \r\n" + 
-        		"    ad_group_clicks as clicks, ad_group_cpc as cpc, \r\n" + 
-        		"    ad_group_spends as spends, ad_group_sales as sales,\r\n" + 
-        		"    ad_group_orders as orders, \r\n" + 
-        		"    round((ad_group_orders / ad_group_clicks)*100, 2) as \"conv rate(%)\",\r\n" + 
-        		"    ad_group_acos as ACOS, ad_group_roas as ROAS\r\n" + 
-        		"FROM Campaign\r\n" + 
-        		"JOIN Ad_Group USING(campaign_id)\r\n" + 
-        		"JOIN Ad_Group_Performance USING(ad_group_id)\r\n" + 
-        		"WHERE (ad_group_acos = ?) or (ad_group_roas = ? \r\n)" + 
-        		"ORDER BY ad_group_acos, ad_group_id;",
-        		new String [] {"ACOS", "ROAS"}, new boolean [] {false},  false, true));  
-        
-       
-    //top performing keyword
-         //top performing keyword
+            "SELECT " +
+                "seller_name, " +
+                "product_name, product_rating, " +
+                "product_reviews, product_price " +
+            "FROM Seller \n" +
+            "JOIN Product USING (seller_id) " +
+            "WHERE product_name LIKE ? " +
+            "ORDER BY product_rating desc, product_reviews desc;",
+            new String [] {"product_name"}, new boolean [] {false},  false, true));
+
+        //Overview of top performing ad campaigns and ad groups
         m_queryArray.add(new QueryData(
-        		"	SELECT \r\n" + 
-        		"	 ad_group_name, ad_group_budget,\r\n" + 
-        		"    keyword, keyword_impressions as impressions, \r\n" + 
-        		"    keyword_clicks as clicks , keyword_ctr as 'ctr(%)', keyword_cpc as cpc,\r\n" + 
-        		"    keyword_orders as orders, \r\n" + 
-        		"    round((keyword_orders / keyword_clicks)*100, 2) as 'conv rate(%)',\r\n" + 
-        		"    keyword_spends as spends , keyword_sales as sales, \r\n" + 
-        		"    keyword_acos as ACOS , keyword_roas as ROAS\r\n" + 
-        		"FROM Keyword\r\n" + 
-        		"JOIN Ad_Group USING(ad_group_id)\r\n" + 
-        		"JOIN Keyword_Performance USING (keyword_id)\r\n" + 
-        		"WHERE \r\n" + 
-        		"	keyword_ctr > 0.4 \r\n" + 
-        		"	AND keyword_acos < 0.7 \r\n" + 
-        		"	AND keyword_roas > 0.4\r\n" + 
-        		"ORDER BY keyword_acos asc;",
-        		null, null, false, false));
+            "	SELECT " +
+                "campaign_id, " +
+        	    "campaign_name, " +
+        	    "ad_group_name, ad_group_impressions as impressions, " +
+        	    "ad_group_clicks as clicks, ad_group_cpc as cpc, " +
+        	    "ad_group_spends as spends, ad_group_sales as sales," +
+        	    "ad_group_orders as orders, " +
+        	    "round((ad_group_orders / ad_group_clicks)*100, 2) as \"conv rate(%)\"," +
+        	    "ad_group_acos as ACOS, ad_group_roas as ROAS " +
+        	"FROM Campaign " +
+        	"JOIN Ad_Group USING(campaign_id) " +
+        	"JOIN Ad_Group_Performance USING(ad_group_id) " +
+        	"WHERE ad_group_acos < 0.3 or ad_group_roas > 0.5 " +
+        	"ORDER BY ad_group_acos, ad_group_id;",
+    		null, null, false, false));
+
+        // Overview of top performing ad campaigns and ad groups.
+        // User intput: ACOS, ROAS. doesn't filter.
+        m_queryArray.add(new QueryData(
+        	"	SELECT " +
+        	    "campaign_id, " +
+        	    "campaign_name, " +
+        	    "ad_group_name, ad_group_impressions as impressions, " +
+        	    "ad_group_clicks as clicks, ad_group_cpc as cpc, " +
+        	    "ad_group_spends as spends, ad_group_sales as sales, " +
+        	    "ad_group_orders as orders, " +
+        	    "round((ad_group_orders / ad_group_clicks)*100, 2) as \"conv rate(%)\", " +
+        	    "ad_group_acos as ACOS, ad_group_roas as ROAS " +
+        	"FROM Campaign " +
+        	"JOIN Ad_Group USING (campaign_id) " +
+        	"JOIN Ad_Group_Performance USING (ad_group_id) " +
+        	// Maybe try where ACOS and ROAS is greater than a value?
+            "WHERE (ad_group_acos > ?) or (ad_group_roas > ?) " +
+        	"ORDER BY ad_group_acos, ad_group_id;",
+        	new String [] {"ACOS", "ROAS"}, new boolean [] {false},  false, true));
+
+        // Top performing keyword.
+        m_queryArray.add(new QueryData(
+        	"	SELECT \r\n" +
+        	"	 ad_group_name, ad_group_budget,\r\n" +
+        	"    keyword, keyword_impressions as impressions, \r\n" +
+        	"    keyword_clicks as clicks , keyword_ctr as 'ctr(%)', keyword_cpc as cpc,\r\n" +
+        	"    keyword_orders as orders, \r\n" +
+        	"    round((keyword_orders / keyword_clicks)*100, 2) as 'conv rate(%)',\r\n" +
+        	"    keyword_spends as spends , keyword_sales as sales, \r\n" +
+        	"    keyword_acos as ACOS , keyword_roas as ROAS\r\n" +
+        	"FROM Keyword\r\n" +
+        	"JOIN Ad_Group USING(ad_group_id)\r\n" +
+        	"JOIN Keyword_Performance USING (keyword_id)\r\n" +
+        	"WHERE \r\n" +
+        	"	keyword_ctr > 0.4 \r\n" +
+        	"	AND keyword_acos < 0.7 \r\n" +
+        	"	AND keyword_roas > 0.4\r\n" +
+        	"ORDER BY keyword_acos asc;",
+        	null, null, false, false));
     
-    //Good Performing Ads Groups with Sales Greater Than Average (user input: campaign strategy) doesn't filter
-    m_queryArray.add(new QueryData(
-        		"SELECT \r\n" + 
-        		"    c.campaign_id, c.campaign_name, \r\n" + 
-        		"    a.ad_group_start, a.ad_group_name, \r\n" + 
-        		"    p.product_name, p.product_description as 'prod descript', \r\n" + 
-        		"    p.product_price as price,\r\n" + 
-        		"    pf.ad_group_orders as orders, pf.ad_group_sales as sales, \r\n" + 
-        		"    round((ad_group_sales / ad_group_orders), 0) as 'sales unit'\r\n" + 
-        		"FROM Campaign c \r\n" + 
-        		"JOIN Ad_Group a ON c.campaign_id = a.campaign_id\r\n" + 
-        		"JOIN Ad_Group_Performance pf ON a.ad_group_id = pf.ad_group_id\r\n" + 
-        		"JOIN Product p ON c.product_id = p.product_id\r\n" + 
-        		"WHERE (campaign_name like ?))  \r\n" + 
-        		"AND ad_group_sales > (\r\n" + 
-        		"	SELECT \r\n" + 
-        		"		avg(ad_group_sales) as 'avg sales'\r\n" + 
-        		"    FROM \r\n" + 
-        		"		Ad_Group_Performance\r\n" + 
-        		")\r\n" + 
-        		"ORDER BY ad_group_sales desc;",
-        		new String [] {"Campaign Strategy"}, new boolean [] {true}, false, true));
+        // Good performing ads groups with sales greater than average.
+        // User input: campaign strategy. doesn't filter
+        m_queryArray.add(new QueryData(
+        	"SELECT \r\n" +
+        	"    c.campaign_id, c.campaign_name, \r\n" +
+        	"    a.ad_group_start, a.ad_group_name, \r\n" +
+        	"    p.product_name, p.product_description as 'prod descript', \r\n" +
+        	"    p.product_price as price,\r\n" +
+        	"    pf.ad_group_orders as orders, pf.ad_group_sales as sales, \r\n" +
+        	"    round((ad_group_sales / ad_group_orders), 0) as 'sales unit'\r\n" +
+        	"FROM Campaign c \r\n" +
+        	"JOIN Ad_Group a ON c.campaign_id = a.campaign_id\r\n" +
+        	"JOIN Ad_Group_Performance pf ON a.ad_group_id = pf.ad_group_id\r\n" +
+        	"JOIN Product p ON c.product_id = p.product_id\r\n" +
+        	"WHERE (campaign_name like ?))  \r\n" +
+        	"AND ad_group_sales > (\r\n" +
+        	"	SELECT \r\n" +
+        	"		avg(ad_group_sales) as 'avg sales'\r\n" +
+        	"   FROM \r\n" +
+        	"		Ad_Group_Performance\r\n" +
+        	")\r\n" +
+        	"ORDER BY ad_group_sales desc;",
+        	new String [] {"Campaign Strategy"}, new boolean [] {true}, false, true));
     
     }
     
-    public int GetTotalQueries()
-    {
+    public int GetTotalQueries() {
         return m_queryArray.size();
     }
     
-    public int GetParameterAmtForQuery(int queryChoice)
-    {
+    public int GetParameterAmtForQuery(int queryChoice) {
         QueryData e=m_queryArray.get(queryChoice);
         return e.GetParmAmount();
     }
               
-    public String GetParamText(int queryChoice, int parmnum)
-    {
+    public String GetParamText(int queryChoice, int parmnum) {
        QueryData e=m_queryArray.get(queryChoice);        
        return e.GetParamText(parmnum); 
     }   
 
-    public String GetQueryText(int queryChoice)
-    {
+    public String GetQueryText(int queryChoice) {
         QueryData e=m_queryArray.get(queryChoice);
         return e.GetQueryString();        
     }
     
     /**
      * Function will return how many rows were updated as a result
-     * of the update query
+     * of the update query.
      * @return Returns how many rows were updated
      */
-    
-    public int GetUpdateAmount()
-    {
+    public int GetUpdateAmount() {
         return m_updateAmount;
     }
     
     /**
-     * Function will return ALL of the Column Headers from the query
+     * Function will return ALL of the Column Headers from the query.
      * @return Returns array of column headers
      */
-    public String [] GetQueryHeaders()
-    {
+    public String [] GetQueryHeaders() {
         return m_jdbcData.GetHeaders();
     }
     
     /**
      * After the query has been run, all of the data has been captured into
      * a multi-dimensional string array which contains all the row's. For each
-     * row it also has all the column data. It is in string format
+     * row it also has all the column data. It is in string format.
      * @return multi-dimensional array of String data based on the resultset 
      * from the query
      */
-    public String[][] GetQueryData()
-    {
+    public String[][] GetQueryData() {
         return m_jdbcData.GetData();
     }
 
-    public String GetProjectTeamApplication()
-    {
+    public String GetProjectTeamApplication() {
         return m_projectTeamApplication;        
     }
-    public boolean  isActionQuery (int queryChoice)
-    {
+    public boolean  isActionQuery (int queryChoice) {
         QueryData e=m_queryArray.get(queryChoice);
         return e.IsQueryAction();
     }
     
-    public boolean isParameterQuery(int queryChoice)
-    {
+    public boolean isParameterQuery(int queryChoice) {
         QueryData e=m_queryArray.get(queryChoice);
         return e.IsQueryParm();
     }
     
      
-    public boolean ExecuteQuery(int queryChoice, String [] parms)
-    {
+    public boolean ExecuteQuery(int queryChoice, String [] parms) {
         boolean bOK = true;
         QueryData e=m_queryArray.get(queryChoice);        
-        bOK = m_jdbcData.ExecuteQuery(e.GetQueryString(), parms, e.GetAllLikeParams());
+        bOK = m_jdbcData.ExecuteQuery(e.GetQueryString(), parms,
+                e.GetAllLikeParams());
         return bOK;
     }
     
-     public boolean ExecuteUpdate(int queryChoice, String [] parms)
-    {
+     public boolean ExecuteUpdate(int queryChoice, String [] parms) {
         boolean bOK = true;
         QueryData e=m_queryArray.get(queryChoice);        
         bOK = m_jdbcData.ExecuteUpdate(e.GetQueryString(), parms);
@@ -236,17 +251,16 @@ public class QueryRunner {
     }   
     
       
-    public boolean Connect(String szHost, String szUser, String szPass, String szDatabase)
-    {
-
-        boolean bConnect = m_jdbcData.ConnectToDatabase(szHost, szUser, szPass, szDatabase);
+    public boolean Connect(String szHost, String szUser, String szPass,
+                           String szDatabase) {
+        boolean bConnect = m_jdbcData.ConnectToDatabase(szHost, szUser, szPass,
+                szDatabase);
         if (bConnect == false)
             m_error = m_jdbcData.GetError();        
         return bConnect;
     }
     
-    public boolean Disconnect()
-    {
+    public boolean Disconnect() {
         // Disconnect the JDBCData Object
         boolean bConnect = m_jdbcData.CloseDatabase();
         if (!bConnect)
@@ -254,8 +268,7 @@ public class QueryRunner {
         return true;
     }
     
-    public String GetError()
-    {
+    public String GetError() {
         return m_error;
     }
  
@@ -266,11 +279,8 @@ public class QueryRunner {
     private int m_updateAmount;
             
     /**
-     * @param args the command line arguments
+     * @param args the command line arguments.
      */
-    
-
-    
     public static void main(String[] args) {
         // TODO code application logic here
 
