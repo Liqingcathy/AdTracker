@@ -12,30 +12,15 @@ import java.util.ArrayList;
  * @author mckeem
  */
 public class QueryData {
-     QueryData() {
-    }
-//    QueryData(String query)
-//    {
-//        m_queryString = query;
-//    }
-    
-    QueryData(String query, String[] parms, boolean [] likeparms,
+     QueryData(String query, String[] parms, boolean [] likeparms,
               boolean isAction, boolean isParm) {
         queryString = query;
         arrayParms = parms;
         arrayLikeParms = likeparms;
-        isAction = isAction;
+        this.isAction = isAction;
         isParms = isParm;
     }
-    
-//    void Set(String query, ArrayList<String>parms, boolean isAction, boolean isParm)
-//    {
-//        m_queryString = query;
-//        m_arrayParms = parms;
-//        m_isAction = isAction;
-//        m_isParms = isParm;
-//    }
-    
+
     String GetQueryString()
     {
         return queryString;
@@ -49,23 +34,19 @@ public class QueryData {
     }
     
   
-    String GetParamText(int index)
-    {
+    String GetParamText(int index) {
         return arrayParms[index];
     }
     
-    boolean GetLikeParam(int index)
-    {
+    boolean GetLikeParam(int index) {
         return arrayLikeParms[index];
     }
     
-    boolean [] GetAllLikeParams()
-    {
+    boolean [] GetAllLikeParams() {
         return arrayLikeParms;
     }
     
-    boolean IsQueryAction()
-    {
+    boolean IsQueryAction() {
         return isAction;
     }
     
