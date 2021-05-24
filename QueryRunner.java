@@ -46,6 +46,7 @@ public class QueryRunner {
         // Hello this is a GitHub test! Hi Ben and Liqing!
         m_queryArray.add(new QueryData("Select * from Product where product_description=?", new String [] {"product_description"}, new boolean [] {false}, false, true));   // THIS NEEDS TO CHANGE FOR YOUR APPLICATION
         
+        // Allows users to catch a glimpse of the top 5 rated products in a given category (electronics, outdoors, or clothing)
         m_queryArray.add(new QueryData("SELECT P.product_id, product_name, seller_name, " +
             "product_description as description, product_price as price, product_rating as rating, " +
             "product_reviews as reviews, C.manager_id, campaign_id " +
