@@ -79,7 +79,7 @@ public class QueryRunner {
         		"ORDER BY ad_group_acos, ad_group_id;",
     			null, null, false, false));
                        
-    }
+    
     
     //Overview of Top Performing Ad Campaigns and Ad Groups (user intput- ACOS, ROAS)(doesn't filter)
         m_queryArray.add(new QueryData(
@@ -144,7 +144,8 @@ public class QueryRunner {
         		"ORDER BY ad_group_sales desc;",
         		new String [] {"Campaign Strategy"}, new boolean [] {true}, false, true));
     
-
+    }
+    
     public int GetTotalQueries()
     {
         return m_queryArray.size();
