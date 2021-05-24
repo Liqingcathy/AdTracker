@@ -5,6 +5,7 @@
  */
 package queryrunner;
 
+import javax.net.ssl.SSLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -407,6 +408,8 @@ public class QueryRunner {
                 }
                 // Close Scanner.
                 keyboard.close();
+
+                System.out.println("\nErrors: " + queryrunner.GetError());
 
                 // Disconnect()
                 queryrunner.Disconnect();
