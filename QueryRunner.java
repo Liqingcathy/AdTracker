@@ -75,19 +75,19 @@ public class QueryRunner {
         // category
         // User input: outdoors, electronics, clothing
         queryArray.add(new QueryData(
-            "SELECT P.product_id, product_name, seller_name, " +
-                "product_description as description, product_price as price, " +
-                "product_rating as rating, product_reviews as reviews, " +
-                "C.manager_id, campaign_id " +
-            "FROM Product P Join Seller USING (seller_id) Join Campaign C USING (seller_id) " +
-            "WHERE product_description LIKE CONCAT('%', ?, '%') " +
-            "Order By P.product_rating DESC, P.product_reviews DESC " +
+            "SELECT P.product_id, product_name, seller_name,\n" +
+                "product_description as description, product_price as price,\n\t" +
+                "product_rating as rating, product_reviews as reviews,\n\t" +
+                "C.manager_id, campaign_id\n\t" +
+            "FROM Product P Join Seller USING (seller_id) Join Campaign C USING (seller_id)\n" +
+            "WHERE product_description LIKE CONCAT('%', ?, '%')\n" +
+            "ORDER BY P.product_rating DESC, P.product_reviews DESC\n" +
             "LIMIT 5",
             new String[] {"Product Category"}, new boolean [] {true}, false, true));
 
         // Insert new product.
         queryArray.add(new QueryData(
-            "INSERT INTO Product (product_name, seller_id, " +
+            "INSERT INTO Product (product_name, seller_id,\n" +
                     "product_description, product_price) values (?,?,?,?);",
             new String [] {"Product Name", "Seller ID", "Product Description", "Product Price"},
             new boolean [] {false, false, false, false}, true, true));
@@ -327,18 +327,7 @@ public class QueryRunner {
             });
         } else {
             if (args[0].equals ("-console")) {
-            	System.out.println("Nothing has been implemented yet. Please implement the necessary code");
                 // TODO
-                // You should code the following functionality:
-
-                //    You need to determine if it is a parameter query. If it is, then
-                //    you will need to ask the user to put in the values for the Parameters in your query
-                //    you will then call ExecuteQuery or ExecuteUpdate (depending on whether it is an action query or regular query)
-                //    if it is a regular query, you should then get the data by calling GetQueryData. You should then display this
-                //    output. 
-                //    If it is an action query, you will tell how many row's were affected by it.
-                // 
-                //    This is Psuedo Code for the task:
 
                 // Create Scanner object.
                 Scanner keyboard = new Scanner(System.in);
@@ -351,11 +340,17 @@ public class QueryRunner {
                 // n = GetTotalQueries()
                 int n = queryrunner.GetTotalQueries();
 
-                // for (i = 0; i < n; i++) {
+                // Add empty line.
+                System.out.println();
+
+                // Iterate through queries.
                 for (int i = 0; i < n; i++) {
 
+                    // Initialize a parameter array to null.
+                    String[] paramArray = null;
+
                     // Print query.
-                    System.out.println("\n" + queryrunner.GetQueryText(i));
+                    System.out.println(queryrunner.GetQueryText(i));
 
                     // Check if query has parameters.
                     if (queryrunner.isParameterQuery(i)) {
@@ -363,8 +358,9 @@ public class QueryRunner {
                         int amt = queryrunner.GetParameterAmtForQuery(i);
 
                         // Create a parameter array of strings for that amount
-                        String paramArray[] = new String[amt];
+                        paramArray = new String[amt];
 
+                        System.out.println();
                         // for (j=0; j< amt; j++)
                         for (int j = 0; j < amt; j++) {
                             // Get the parameter label for query and print it to
@@ -374,40 +370,40 @@ public class QueryRunner {
                             // Take the value and put it into parameter array
                             paramArray[j] = keyboard.nextLine();
                         }
-                        // If it is an action query then
-                        if (queryrunner.isActionQuery(i)) {
-                            // call ExecuteUpdate to run the Query
-                            queryrunner.ExecuteUpdate(i, paramArray);
+                    }
+                    // If it is an action query then
+                    if (queryrunner.isActionQuery(i)) {
+                        System.out.println("TEST");
+                        // call ExecuteUpdate to run the Query
+                        queryrunner.ExecuteUpdate(i, paramArray);
 
-                            // call GetUpdateAmount to find out how many rows
-                            // were affected, and print that value
-                            System.out.println(queryrunner.GetUpdateAmount() +
-                                    " rows affected.");
+                        // call GetUpdateAmount to find out how many rows
+                        // were affected, and print that value
+                        System.out.println(queryrunner.GetUpdateAmount() +
+                                " rows affected.");
 
-                        } else {
-                            // call ExecuteQuery
-                            queryrunner.ExecuteQuery(i, paramArray);
-                        }
                     } else {
-                        queryrunner.ExecuteQuery(i, null);
-                    }
+                        // call ExecuteQuery
+                        queryrunner.ExecuteQuery(i, paramArray);
 
-                    // call GetQueryData to get the results back
-                    String[] headers = queryrunner.GetQueryHeaders();
-                    String[][] data = queryrunner.GetQueryData();
+                        // call GetQueryData to get the results back
+                        String[] headers = queryrunner.GetQueryHeaders();
+                        String[][] data = queryrunner.GetQueryData();
 
-                    // Print out all the results
-                    System.out.print("\n");
-                    for (int h = 0; h < headers.length; h++) {
-                        System.out.printf("%-32s", headers[h]);
-                    }
-                    System.out.print("\n");
-
-                    for (int r = 0; r < data.length; r++) {
-                        for (int c = 0; c < data[0].length; c++) {
-                            System.out.printf("%-32s", data[r][c]);
+                        // Print out all the results
+                        System.out.println();
+                        for (int h = 0; h < headers.length; h++) {
+                            System.out.printf("%-32s", headers[h]);
                         }
-                        System.out.print("\n");
+                        System.out.println();
+
+                        for (int r = 0; r < data.length; r++) {
+                            for (int c = 0; c < data[0].length; c++) {
+                                System.out.printf("%-32s", data[r][c]);
+                            }
+                            System.out.println();
+                        }
+                        System.out.println();
                     }
                 }
                 // Close Scanner.
