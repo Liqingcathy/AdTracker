@@ -268,10 +268,10 @@ public class QueryRunner {
     }
     
      
-    public boolean ExecuteQuery(int queryChoice, String [] parms) {
+    public boolean ExecuteQuery(int queryChoice, String [] params) {
         boolean bOK = true;
         QueryData e = queryArray.get(queryChoice);
-        bOK = jdbcData.ExecuteQuery(e.GetQueryString(), parms,
+        bOK = jdbcData.ExecuteQuery(e.GetQueryString(), params,
                 e.GetAllLikeParams());
         return bOK;
     }
@@ -389,11 +389,14 @@ public class QueryRunner {
                             // call ExecuteQuery
                             queryrunner.ExecuteQuery(i, paramArray);
                         }
-                        
-                        // call GetQueryData to get the results back
-                            //               print out all the results
-                            //           end if
+                    } else {
+                        queryrunner.ExecuteQuery(i, null);
                     }
+
+                    // call GetQueryData to get the results back
+                    String[][] data = queryrunner.GetQueryData();
+                      
+                    // Print out all the results
                 }
 
                 // Disconnect()
