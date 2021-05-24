@@ -51,6 +51,8 @@ public class QueryRunner {
         // m_queryArray.add(new QueryData("insert into contact (contact_id, contact_name, contact_salary) values (?,?,?)",
         // new String [] {"CONTACT_ID", "CONTACT_NAME", "CONTACT_SALARY"}, new boolean [] {false, false, false}, true, true));
 
+        // PRODUCT QUERIES
+
         // Search for a product.
         m_queryArray.add(new QueryData(
             "SELECT " +
@@ -63,9 +65,6 @@ public class QueryRunner {
             "AND product_name LIKE ? " +
             "ORDER BY seller_name, product_name;",
             new String [] {"Seller", "Product"}, new boolean [] {true, true},  false, true));
-
-
-        // PRODUCT QUERIES
 
         // Overview of product performance by seller.
         m_queryArray.add(new QueryData(
