@@ -151,7 +151,7 @@ public class QueryRunner {
         	"JOIN Ad_Group_Performance USING (ad_group_id) " +
         	// Tried some things but still doesn't work.
             "WHERE ad_group_acos > ? " +
-                "AND ad_group_roas < ?) " +
+                "AND ad_group_roas < ? " +
         	"ORDER BY ad_group_acos, ad_group_id;",
         	new String [] {"ACOS", "ROAS"}, new boolean [] {false, false},  false, true));
         
