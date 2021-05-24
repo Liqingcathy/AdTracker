@@ -146,7 +146,7 @@ public class QueryRunner {
         
          // Allow user to search for open ad groups and ad group name 
          // containing the name of a targeted product and ad group type (e.g. 
-         // user input: ad group name: tent, keyboard, shirt 
+         // User input: ad group name: tent, keyboard, shirt 
          //             ad group type (sponsored): brand, product
          m_queryArray.add(new QueryData("SELECT ad_group_id, ad_group_name, ad_group_start, " +
                 "ad_group_end, ad_group_impressions as impressions, ad_group_clicks as clicks, " +
