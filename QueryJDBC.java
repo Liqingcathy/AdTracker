@@ -64,7 +64,7 @@ public class QueryJDBC {
 
         // Try to get the columns and the amount of columns
         try {
-            preparedStatement=this.m_conn.prepareStatement(szQuery);            
+            preparedStatement = this.m_conn.prepareStatement(szQuery);
 
             int nParamAmount = parms.length;
 
@@ -77,7 +77,7 @@ public class QueryJDBC {
             }
 
             //preparedStatement.setString(1,  "%" + szContact + "%");
-            resultSet=preparedStatement.executeQuery();
+            resultSet = preparedStatement.executeQuery();
 
             ResultSetMetaData rsmd = resultSet.getMetaData(); 
             nColAmt = rsmd.getColumnCount();

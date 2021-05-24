@@ -373,14 +373,13 @@ public class QueryRunner {
                     }
                     // If it is an action query then
                     if (queryrunner.isActionQuery(i)) {
-                        System.out.println("TEST");
                         // call ExecuteUpdate to run the Query
                         queryrunner.ExecuteUpdate(i, paramArray);
 
                         // call GetUpdateAmount to find out how many rows
                         // were affected, and print that value
                         System.out.println(queryrunner.GetUpdateAmount() +
-                                " rows affected.");
+                                " rows affected.\n");
 
                     } else {
                         // call ExecuteQuery
