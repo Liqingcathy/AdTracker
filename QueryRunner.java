@@ -394,9 +394,21 @@ public class QueryRunner {
                     }
 
                     // call GetQueryData to get the results back
+                    String[] headers = queryrunner.GetQueryHeaders();
                     String[][] data = queryrunner.GetQueryData();
-                      
+
                     // Print out all the results
+                    for (int h = 0; h < headers.length; h++) {
+                        System.out.printf("%-8s", headers[h]);
+                    }
+                    System.out.print("\n");
+
+                    for (int r = 0; r < data.length; r++) {
+                        for (int c = 0; c < data[0].length; c++) {
+                            System.out.printf("%-8s", data[r][c]);
+                        }
+                        System.out.print("\n");
+                    }
                 }
 
                 // Disconnect()

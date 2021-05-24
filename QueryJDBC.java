@@ -53,8 +53,6 @@ public class QueryJDBC {
         return m_updateAmount;
     }
     
-
-    
     // We think we can always setString on Parameters. Not sure if this is true.
     // GetString on Results is fine though
     public boolean ExecuteQuery(String szQuery, String [] parms,
