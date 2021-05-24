@@ -337,7 +337,7 @@ public class QueryRunner {
         } else {
             if (args[0].equals ("-console")) {
             	System.out.println("Nothing has been implemented yet. Please implement the necessary code");
-               // TODO 
+                // TODO
                 // You should code the following functionality:
 
                 //    You need to determine if it is a parameter query. If it is, then
@@ -347,28 +347,39 @@ public class QueryRunner {
                 //    output. 
                 //    If it is an action query, you will tell how many row's were affected by it.
                 // 
-                //    This is Psuedo Code for the task:  
-                //    Connect()
-                //    n = GetTotalQueries()
-                //    for (i=0;i < n; i++)
-                //    {
-                //       Is it a query that Has Parameters
-                //       Then
-                //           amt = find out how many parameters it has
-                //           Create a paramter array of strings for that amount
-                //           for (j=0; j< amt; j++)
-                //              Get The Paramater Label for Query and print it to console. Ask the user to enter a value
-                //              Take the value you got and put it into your parameter array
-                //           If it is an Action Query then
-                //              call ExecuteUpdate to run the Query
-                //              call GetUpdateAmount to find out how many rows were affected, and print that value
-                //           else
-                //               call ExecuteQuery 
-                //               call GetQueryData to get the results back
-                //               print out all the results
-                //           end if
-                //      }
-                //    Disconnect()
+                //    This is Psuedo Code for the task:
+
+                // Connect()
+                queryrunner.Connect(
+                        "database-1.crvrlpwsgqaw.us-east-1.rds.amazonaws.com",
+                        "admin", "group3aws", "Group3");
+
+                // n = GetTotalQueries()
+                int n = queryrunner.GetTotalQueries();
+
+                // for (i=0;i < n; i++) {
+                for (int i = 0; i < n; i++) {
+
+                    // Is it a query that Has Parameters
+                    //       Then
+                    //           amt = find out how many parameters it has
+                    //           Create a paramter array of strings for that amount
+                    //           for (j=0; j< amt; j++)
+                    //              Get The Paramater Label for Query and print it to console. Ask the user to enter a value
+                    //              Take the value you got and put it into your parameter array
+                    //           If it is an Action Query then
+                    //              call ExecuteUpdate to run the Query
+                    //              call GetUpdateAmount to find out how many rows were affected, and print that value
+                    //           else
+                    //               call ExecuteQuery
+                    //               call GetQueryData to get the results back
+                    //               print out all the results
+                    //           end if
+                    //      }
+                }
+
+                // Disconnect()
+                queryrunner.Disconnect();
 
 
                 // NOTE - IF THERE ARE ANY ERRORS, please print the Error output

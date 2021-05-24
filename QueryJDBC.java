@@ -187,7 +187,7 @@ public class QueryJDBC {
         }
         return true;
     }
-    
+
     /* Document this function
     // TODO    
     */
