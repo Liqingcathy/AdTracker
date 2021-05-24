@@ -92,22 +92,6 @@ public class QueryRunner {
             "Order By P.product_rating DESC, P.product_reviews DESC " +
             "LIMIT 5",
             new String[] {"Product Category"}, new boolean [] {true}, false, true));
-        
-         // Supposed to allow user to search for open ad groups and ad group name 
-         // containing the name of a targeted product, (e.g. tent), and also for 
-         // the ad group type (which is sponsored brand or sponsored product). Still trying to
-         // get this to work properly, I think the error has to do with the LIKE clause
-         m_queryArray.add(new QueryData(
-             "SELECT ad_group_id, ad_group_name, ad_group_start, " +
-                 "ad_group_end, ad_group_impressions as impressions, ad_group_clicks as clicks, " +
-                 "ad_group_cpc as cpc, ad_group_ctr as 'ctr(%)', ad_group_sales as sales, " +
-                 "ad_group_spends as spends, ad_group_acos AS ACOS, ad_group_roas as ROAS " +
-                 "FROM Ad_Group " +
-                 "JOIN Ad_Group_Performance USING (ad_group_id) " +
-                 "WHERE (ad_group_name LIKE ?) AND (ad_group_type LIKE ?) AND ad_group_end IS NULL " +
-                 "ORDER BY sales DESC",
-                 new String [] {"ad group name", "product or brand"}, new boolean [] {true, true},
-                 false, true));
 
         // Insert new product.
         m_queryArray.add(new QueryData(
@@ -158,6 +142,22 @@ public class QueryRunner {
                 "AND ad_group_roas < ?) " +
         	"ORDER BY ad_group_acos, ad_group_id;",
         	new String [] {"ACOS", "ROAS"}, new boolean [] {false, false},  false, true));
+        
+         // Supposed to allow user to search for open ad groups and ad group name 
+         // containing the name of a targeted product, (e.g. tent), and also for 
+         // the ad group type (which is sponsored brand or sponsored product). Still trying to
+         // get this to work properly, I think the error has to do with the LIKE clause
+         m_queryArray.add(new QueryData(
+             "SELECT ad_group_id, ad_group_name, ad_group_start, " +
+                 "ad_group_end, ad_group_impressions as impressions, ad_group_clicks as clicks, " +
+                 "ad_group_cpc as cpc, ad_group_ctr as 'ctr(%)', ad_group_sales as sales, " +
+                 "ad_group_spends as spends, ad_group_acos AS ACOS, ad_group_roas as ROAS " +
+                 "FROM Ad_Group " +
+                 "JOIN Ad_Group_Performance USING (ad_group_id) " +
+                 "WHERE (ad_group_name LIKE ?) AND (ad_group_type LIKE ?) AND ad_group_end IS NULL " +
+                 "ORDER BY sales DESC",
+                 new String [] {"ad group name", "product or brand"}, new boolean [] {true, true},
+                 false, true));
 
         // Top performing keyword.
         m_queryArray.add(new QueryData(
