@@ -194,7 +194,7 @@ public class QueryRunner {
         	null, null, false, false));
     
         // Good performing ads groups with sales greater than average.
-        // User input: campaign_name.
+        // User input: campaign_name with special strategy(competitor, defensive, generic)
         m_queryArray.add(new QueryData(
         	"SELECT " +
         	    "c.campaign_id, c.campaign_name, " +
