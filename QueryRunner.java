@@ -81,7 +81,8 @@ public class QueryRunner {
             null, null, false, true));
         
         // Allows users to catch a glimpse of the top 5 rated products in a given
-        // category (electronics, outdoors, or clothing)
+        // category
+        // User input: outdoors, electronics, clothing
         m_queryArray.add(new QueryData(
             "SELECT P.product_id, product_name, seller_name, " +
                 "product_description as description, product_price as price, " +
@@ -144,8 +145,9 @@ public class QueryRunner {
         	new String [] {"ACOS", "ROAS"}, new boolean [] {false, false},  false, true));
         
          // Allow user to search for open ad groups and ad group name 
-         // containing the name of a targeted product, (e.g. tent, keyboard, t-shirt), and also for 
-         // the ad group type (which is sponsored brand or sponsored product)
+         // containing the name of a targeted product and ad group type (e.g. 
+         // user input: ad group name: tent, keyboard, shirt 
+         //             ad group type (sponsored): brand, product
          m_queryArray.add(new QueryData("SELECT ad_group_id, ad_group_name, ad_group_start, " +
                 "ad_group_end, ad_group_impressions as impressions, ad_group_clicks as clicks, " +
                 "ad_group_cpc as cpc, ad_group_ctr as 'ctr(%)', ad_group_sales as sales, " +
