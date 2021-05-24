@@ -347,7 +347,7 @@ public class QueryRunner {
                 for (int i = 0; i < n; i++) {
 
                     // Initialize a parameter array to null.
-                    String[] paramArray = null;
+                    String[] paramArray = {};
 
                     // Print query.
                     System.out.println(queryrunner.GetQueryText(i));
