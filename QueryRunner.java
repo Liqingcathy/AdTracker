@@ -61,8 +61,8 @@ public class QueryRunner {
                 "product_reviews, product_price " +
             "FROM Seller \n" +
             "JOIN Product USING (seller_id) " +
-            "WHERE seller_name LIKE ? " +
-            "AND product_name LIKE ? " +
+            "WHERE seller_name LIKE CONCAT('%', ?, '%') " +
+            "AND product_name LIKE CONCAT('%', ?, '%') " +
             "ORDER BY seller_name, product_name;",
             new String [] {"Seller", "Product"}, new boolean [] {true, true},  false, true));
 
@@ -206,7 +206,7 @@ public class QueryRunner {
         	"JOIN Ad_Group a ON c.campaign_id = a.campaign_id " +
         	"JOIN Ad_Group_Performance pf ON a.ad_group_id = pf.ad_group_id " +
         	"JOIN Product p ON c.product_id = p.product_id " +
-        	"WHERE campaign_name LIKE ? " +
+        	"WHERE campaign_name LIKE CONCAT('%', ?, '%') " +
         	"AND ad_group_sales > (" +
         	    "SELECT avg(ad_group_sales) as 'avg sales' " +
         	    "FROM Ad_Group_Performance) " +
