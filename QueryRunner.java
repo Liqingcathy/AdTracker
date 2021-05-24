@@ -148,7 +148,8 @@ public class QueryRunner {
          // containing the name of a targeted product and ad group type (e.g. 
          // User input: ad group name: tent, keyboard, shirt 
          //             ad group type (sponsored): brand, product
-         m_queryArray.add(new QueryData("SELECT ad_group_id, ad_group_name, ad_group_start, " +
+         m_queryArray.add(new QueryData(
+                "SELECT ad_group_id, ad_group_name, ad_group_start, " +
                 "ad_group_end, ad_group_impressions as impressions, ad_group_clicks as clicks, " +
                 "ad_group_cpc as cpc, ad_group_ctr as 'ctr(%)', ad_group_sales as sales, " +
                 "ad_group_spends as spends, ad_group_acos AS ACOS, ad_group_roas as ROAS " +
