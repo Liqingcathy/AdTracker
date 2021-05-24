@@ -144,7 +144,7 @@ public class QueryRunner {
         	new String [] {"ACOS", "ROAS"}, new boolean [] {false, false},  false, true));
         
          // Supposed to allow user to search for open ad groups and ad group name 
-         // containing the name of a targeted product, (e.g. tent), and also for 
+         // containing the name of a targeted product, (e.g. tent, keyboard, t-shirt), and also for 
          // the ad group type (which is sponsored brand or sponsored product). Still trying to
          // get this to work properly, I think the error has to do with the LIKE clause
          m_queryArray.add(new QueryData(
