@@ -340,6 +340,9 @@ public class QueryRunner {
                 // 
                 //    This is Psuedo Code for the task:
 
+                // Create Scanner object.
+                Scanner keyboard = new Scanner(System.in);
+
                 // Connect()
                 queryrunner.Connect(
                         "database-1.crvrlpwsgqaw.us-east-1.rds.amazonaws.com",
@@ -348,10 +351,13 @@ public class QueryRunner {
                 // n = GetTotalQueries()
                 int n = queryrunner.GetTotalQueries();
 
-                // for (i=0;i < n; i++) {
+                // for (i = 0; i < n; i++) {
                 for (int i = 0; i < n; i++) {
 
-                    // Is it a query that has parameters
+                    // Print query.
+                    System.out.println("\n" + queryrunner.GetQueryText(i));
+
+                    // Check if query has parameters.
                     if (queryrunner.isParameterQuery(i)) {
                         // amt = find out how many parameters it has
                         int amt = queryrunner.GetParameterAmtForQuery(i);
@@ -361,20 +367,13 @@ public class QueryRunner {
 
                         // for (j=0; j< amt; j++)
                         for (int j = 0; j < amt; j++) {
-                            // Create Scanner object.
-                            Scanner keyboard = new Scanner(System.in);
-
                             // Get the parameter label for query and print it to
                             // console. Ask the user to enter a value
                             System.out.print(queryrunner.GetParamText(i, j) + ": ");
 
                             // Take the value and put it into parameter array
                             paramArray[j] = keyboard.nextLine();
-
-                            // Close Scanner.
-                            keyboard.close();
                         }
-
                         // If it is an action query then
                         if (queryrunner.isActionQuery(i)) {
                             // call ExecuteUpdate to run the Query
@@ -398,18 +397,21 @@ public class QueryRunner {
                     String[][] data = queryrunner.GetQueryData();
 
                     // Print out all the results
+                    System.out.print("\n");
                     for (int h = 0; h < headers.length; h++) {
-                        System.out.printf("%-8s", headers[h]);
+                        System.out.printf("%-32s", headers[h]);
                     }
                     System.out.print("\n");
 
                     for (int r = 0; r < data.length; r++) {
                         for (int c = 0; c < data[0].length; c++) {
-                            System.out.printf("%-8s", data[r][c]);
+                            System.out.printf("%-32s", data[r][c]);
                         }
                         System.out.print("\n");
                     }
                 }
+                // Close Scanner.
+                keyboard.close();
 
                 // Disconnect()
                 queryrunner.Disconnect();
