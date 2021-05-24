@@ -170,7 +170,7 @@ public class QueryRunner {
                 "WHERE ad_group_name LIKE CONCAT('%', ?, '%') AND ad_group_type LIKE CONCAT('%', ?, '%')  " +
                 "HAVING ad_group_end IS NULL " +
                 "ORDER BY sales DESC",
-                new String [] {"ad group name", "product or brand"}, new boolean [] {true, true},
+                new String [] {"Ad Group Name", "Ad Group Type"}, new boolean [] {true, true},
                 false, true));
 
         // Top performing keyword.
