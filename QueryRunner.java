@@ -150,6 +150,7 @@ public class QueryRunner {
         	"JOIN Ad_Group USING (campaign_id) " +
         	"JOIN Ad_Group_Performance USING (ad_group_id) " +
         	// Tried some things but still doesn't work.
+            // UPDATE: Appears to be working as expected now
             "WHERE ad_group_acos > ? " +
                 "AND ad_group_roas < ? " +
         	"ORDER BY ad_group_acos, ad_group_id;",
