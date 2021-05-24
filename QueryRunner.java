@@ -88,7 +88,7 @@ public class QueryRunner {
                 "product_rating as rating, product_reviews as reviews, " +
                 "C.manager_id, campaign_id " +
             "FROM Product P Join Seller USING (seller_id) Join Campaign C USING (seller_id) " +
-            "WHERE product_description LIKE ? " +
+            "WHERE product_description LIKE CONCAT('%', ?, '%') " +
             "Order By P.product_rating DESC, P.product_reviews DESC " +
             "LIMIT 5",
             new String[] {"Product Category"}, new boolean [] {true}, false, true));
