@@ -32,14 +32,6 @@ public class QueryRunner {
         
         this.m_projectTeamApplication="CITYELECTION";    // THIS NEEDS TO CHANGE FOR YOUR APPLICATION
         
-        m_queryArray.add(new QueryData("SELECT P.product_id, product_name, seller_name, " +
-              "product_description as description, product_price as price, product_rating as rating, " +
-              "product_reviews as reviews, C.manager_id, campaign_id " +
-              "FROM Product P Join Seller USING (seller_id) Join Campaign C USING (seller_id) " +
-              "WHERE product_description LIKE ? " +
-              "Order By P.product_rating DESC, P.product_reviews DESC " +
-              "LIMIT 5",
-              new String[] {"product_description"}, new boolean [] {true}, false, true));
         
         // Each row that is added to m_queryArray is a separate query. It does not work on Stored procedure calls.
         // The 'new' Java keyword is a way of initializing the data that will be added to QueryArray. Please do not change
@@ -53,6 +45,16 @@ public class QueryRunner {
 
         // Hello this is a GitHub test! Hi Ben and Liqing!
         m_queryArray.add(new QueryData("Select * from Product where product_description=?", new String [] {"product_description"}, new boolean [] {false}, false, true));   // THIS NEEDS TO CHANGE FOR YOUR APPLICATION
+        
+        m_queryArray.add(new QueryData("SELECT P.product_id, product_name, seller_name, " +
+            "product_description as description, product_price as price, product_rating as rating, " +
+            "product_reviews as reviews, C.manager_id, campaign_id " +
+            "FROM Product P Join Seller USING (seller_id) Join Campaign C USING (seller_id) " +
+            "WHERE product_description LIKE ? " +
+            "Order By P.product_rating DESC, P.product_reviews DESC " +
+            "LIMIT 5",
+            new String[] {"product_description"}, new boolean [] {true}, false, true));
+        
         //m_queryArray.add(new QueryData("Select * from contact where contact_id=?", new String [] {"CONTACT_ID"}, new boolean [] {false},  false, true));        // THIS NEEDS TO CHANGE FOR YOUR APPLICATION
         //m_queryArray.add(new QueryData("Select * from contact where contact_name like ?", new String [] {"CONTACT_NAME"}, new boolean [] {true}, false, true));        // THIS NEEDS TO CHANGE FOR YOUR APPLICATION
         //m_queryArray.add(new QueryData("insert into contact (contact_id, contact_name, contact_salary) values (?,?,?)",new String [] {"CONTACT_ID", "CONTACT_NAME", "CONTACT_SALARY"}, new boolean [] {false, false, false}, true, true));// THIS NEEDS TO CHANGE FOR YOUR APPLICATION
