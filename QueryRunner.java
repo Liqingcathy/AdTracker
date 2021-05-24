@@ -362,20 +362,30 @@ public class QueryRunner {
 
                         // for (j=0; j< amt; j++)
                         for (int j = 0; j < amt; j++) {
+                            // Create Scanner object.
+                            Scanner keyboard = new Scanner(System.in);
 
                             // Get the parameter label for query and print it to
                             // console. Ask the user to enter a value
+                            System.out.print(queryrunner.GetParamText(i, j) + ": ");
 
-                        //              Take the value you got and put it into your parameter array
-                        //           If it is an Action Query then
-                        //              call ExecuteUpdate to run the Query
-                        //              call GetUpdateAmount to find out how many rows were affected, and print that value
-                        //           else
-                        //               call ExecuteQuery
-                        //               call GetQueryData to get the results back
-                        //               print out all the results
-                        //           end if
-                        //      }
+                            // Take the value you got and put it into your parameter array
+                            paramArray[j] = keyboard.nextLine();
+
+                            // Close Scanner.
+                            keyboard.close();
+                        }
+
+                        // If it is an Action Query then
+                        if
+
+                            //              call ExecuteUpdate to run the Query
+                            //              call GetUpdateAmount to find out how many rows were affected, and print that value
+                            //           else
+                            //               call ExecuteQuery
+                            //               call GetQueryData to get the results back
+                            //               print out all the results
+                            //           end if
                     }
                 }
 
