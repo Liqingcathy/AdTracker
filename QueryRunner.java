@@ -18,16 +18,16 @@ import java.util.Scanner;
 public class QueryRunner {
     
     public QueryRunner() {
-        this.m_jdbcData = new QueryJDBC();
-        m_updateAmount = 0;
-        m_queryArray = new ArrayList<>();
-        m_error="";
+        this.jdbcData = new QueryJDBC();
+        updateAmount = 0;
+        queryArray = new ArrayList<>();
+        error="";
         
-        this.m_projectTeamApplication="ADOPTIMIZER";
+        this.projectTeamApplication="ADOPTIMIZER";
 
         /*
         Each row that is added to m_queryArray is a separate query. It does
-        not work on Stored procedure calls. The 'new' Java keyword is a way of
+        not work on stored procedure calls. The 'new' Java keyword is a way of
         initializing the data that will be added to QueryArray.
 
         Format for each row of m_queryArray is: (QueryText, ParamaterLabelArray[],
@@ -43,18 +43,10 @@ public class QueryRunner {
             - IsItParameterQuery: mark it true if it is, otherwise false.
         */
 
-        // Examples:
-        // m_queryArray.add(new QueryData("Select * from contact where contact_id=?",
-        // new String [] {"CONTACT_ID"}, new boolean [] {false},  false, true));
-        // m_queryArray.add(new QueryData("Select * from contact where contact_name like ?",
-        // new String [] {"CONTACT_NAME"}, new boolean [] {true}, false, true));
-        // m_queryArray.add(new QueryData("insert into contact (contact_id, contact_name, contact_salary) values (?,?,?)",
-        // new String [] {"CONTACT_ID", "CONTACT_NAME", "CONTACT_SALARY"}, new boolean [] {false, false, false}, true, true));
-
         // PRODUCT QUERIES
 
         // Search for a product.
-        m_queryArray.add(new QueryData(
+        queryArray.add(new QueryData(
             "SELECT " +
                 "seller_name, " +
                 "product_name, product_rating, " +
@@ -67,7 +59,7 @@ public class QueryRunner {
             new String [] {"Seller", "Product"}, new boolean [] {true, true},  false, true));
 
         // Overview of product performance by seller.
-        m_queryArray.add(new QueryData(
+        queryArray.add(new QueryData(
             "SELECT " +
                 "seller_name, " +
                 "round(avg(product_rating), 1) AVGRATING, " +
@@ -82,7 +74,7 @@ public class QueryRunner {
         // Allows users to catch a glimpse of the top 5 rated products in a given
         // category
         // User input: outdoors, electronics, clothing
-        m_queryArray.add(new QueryData(
+        queryArray.add(new QueryData(
             "SELECT P.product_id, product_name, seller_name, " +
                 "product_description as description, product_price as price, " +
                 "product_rating as rating, product_reviews as reviews, " +
@@ -94,17 +86,17 @@ public class QueryRunner {
             new String[] {"Product Category"}, new boolean [] {true}, false, true));
 
         // Insert new product.
-        m_queryArray.add(new QueryData(
-                "INSERT INTO Product (product_name, seller_id, " +
-                        "product_description, product_price) values (?,?,?,?);",
-                new String [] {"product_name", "seller_id", "product_description", "product_price"},
-                new boolean [] {false, false, false, false}, true, true));
+        queryArray.add(new QueryData(
+            "INSERT INTO Product (product_name, seller_id, " +
+                    "product_description, product_price) values (?,?,?,?);",
+            new String [] {"Product Name", "Seller ID", "Product Description", "Product Price"},
+            new boolean [] {false, false, false, false}, true, true));
 
         
         // CAMPAIGN QUERIES
 
         //Overview of top performing ad campaigns and ad groups
-        m_queryArray.add(new QueryData(
+        queryArray.add(new QueryData(
             "	SELECT " +
                 "campaign_id, " +
         	    "campaign_name, " +
@@ -122,7 +114,7 @@ public class QueryRunner {
     		null, null, false, false));
         
         // Overview of top 5 performing managers by clicks. Can be deleted if we have enough other queries
-        m_queryArray.add(new QueryData(
+        queryArray.add(new QueryData(
             "Select manager_id, manager_first_name, manager_last_name, " +
                 "campaign_id, campaign_name, campaign_clicks " +
                 "FROM Account_Manager " +
@@ -136,7 +128,7 @@ public class QueryRunner {
         // Overview of top performing ad campaigns and ad groups.
         // User intput: ACOS, ROAS. Doesn't filter.
         // Might not be able to filer numbers - Nathan
-        m_queryArray.add(new QueryData(
+        queryArray.add(new QueryData(
         	"	SELECT " +
         	    "campaign_id, " +
         	    "campaign_name, " +
@@ -160,7 +152,7 @@ public class QueryRunner {
          // containing the name of a targeted product and ad group type (e.g. 
          // User input: ad group name: tent, keyboard, shirt 
          //             ad group type (sponsored): brand, product
-         m_queryArray.add(new QueryData(
+         queryArray.add(new QueryData(
                 "SELECT ad_group_id, ad_group_name, ad_group_start, " +
                 "ad_group_end, ad_group_impressions as impressions, ad_group_clicks as clicks, " +
                 "ad_group_cpc as cpc, ad_group_ctr as 'ctr(%)', ad_group_sales as sales, " +
@@ -174,7 +166,7 @@ public class QueryRunner {
                 false, true));
 
         // Top performing keyword.
-        m_queryArray.add(new QueryData(
+        queryArray.add(new QueryData(
         	"	SELECT \r\n" +
         	    "ad_group_name, ad_group_budget, " +
         	    "keyword, keyword_impressions as impressions, " +
@@ -195,7 +187,7 @@ public class QueryRunner {
     
         // Good performing ads groups with sales greater than average.
         // User input: campaign_name with special strategy(competitor, defensive, generic)
-        m_queryArray.add(new QueryData(
+        queryArray.add(new QueryData(
         	"SELECT " +
         	    "c.campaign_id, c.campaign_name, " +
         	    "a.ad_group_start, a.ad_group_name, " +
@@ -216,21 +208,21 @@ public class QueryRunner {
     }
     
     public int GetTotalQueries() {
-        return m_queryArray.size();
+        return queryArray.size();
     }
     
     public int GetParameterAmtForQuery(int queryChoice) {
-        QueryData e=m_queryArray.get(queryChoice);
+        QueryData e = queryArray.get(queryChoice);
         return e.GetParmAmount();
     }
               
-    public String GetParamText(int queryChoice, int parmnum) {
-       QueryData e=m_queryArray.get(queryChoice);        
-       return e.GetParamText(parmnum); 
+    public String GetParamText(int queryChoice, int paramNum) {
+       QueryData e = queryArray.get(queryChoice);
+       return e.GetParamText(paramNum);
     }   
 
     public String GetQueryText(int queryChoice) {
-        QueryData e=m_queryArray.get(queryChoice);
+        QueryData e = queryArray.get(queryChoice);
         return e.GetQueryString();        
     }
     
@@ -240,7 +232,7 @@ public class QueryRunner {
      * @return Returns how many rows were updated
      */
     public int GetUpdateAmount() {
-        return m_updateAmount;
+        return updateAmount;
     }
     
     /**
@@ -248,7 +240,7 @@ public class QueryRunner {
      * @return Returns array of column headers
      */
     public String [] GetQueryHeaders() {
-        return m_jdbcData.GetHeaders();
+        return jdbcData.GetHeaders();
     }
     
     /**
@@ -259,66 +251,66 @@ public class QueryRunner {
      * from the query
      */
     public String[][] GetQueryData() {
-        return m_jdbcData.GetData();
+        return jdbcData.GetData();
     }
 
     public String GetProjectTeamApplication() {
-        return m_projectTeamApplication;        
+        return projectTeamApplication;
     }
     public boolean  isActionQuery (int queryChoice) {
-        QueryData e=m_queryArray.get(queryChoice);
+        QueryData e = queryArray.get(queryChoice);
         return e.IsQueryAction();
     }
     
     public boolean isParameterQuery(int queryChoice) {
-        QueryData e=m_queryArray.get(queryChoice);
+        QueryData e = queryArray.get(queryChoice);
         return e.IsQueryParm();
     }
     
      
     public boolean ExecuteQuery(int queryChoice, String [] parms) {
         boolean bOK = true;
-        QueryData e=m_queryArray.get(queryChoice);        
-        bOK = m_jdbcData.ExecuteQuery(e.GetQueryString(), parms,
+        QueryData e = queryArray.get(queryChoice);
+        bOK = jdbcData.ExecuteQuery(e.GetQueryString(), parms,
                 e.GetAllLikeParams());
         return bOK;
     }
     
      public boolean ExecuteUpdate(int queryChoice, String [] parms) {
         boolean bOK = true;
-        QueryData e=m_queryArray.get(queryChoice);        
-        bOK = m_jdbcData.ExecuteUpdate(e.GetQueryString(), parms);
-        m_updateAmount = m_jdbcData.GetUpdateCount();
+        QueryData e = queryArray.get(queryChoice);
+        bOK = jdbcData.ExecuteUpdate(e.GetQueryString(), parms);
+        updateAmount = jdbcData.GetUpdateCount();
         return bOK;
     }   
     
       
     public boolean Connect(String szHost, String szUser, String szPass,
                            String szDatabase) {
-        boolean bConnect = m_jdbcData.ConnectToDatabase(szHost, szUser, szPass,
+        boolean bConnect = jdbcData.ConnectToDatabase(szHost, szUser, szPass,
                 szDatabase);
         if (bConnect == false)
-            m_error = m_jdbcData.GetError();        
+            error = jdbcData.GetError();
         return bConnect;
     }
     
     public boolean Disconnect() {
         // Disconnect the JDBCData Object
-        boolean bConnect = m_jdbcData.CloseDatabase();
+        boolean bConnect = jdbcData.CloseDatabase();
         if (!bConnect)
-            m_error = m_jdbcData.GetError();
+            error = jdbcData.GetError();
         return true;
     }
     
     public String GetError() {
-        return m_error;
+        return error;
     }
  
-    private QueryJDBC m_jdbcData;
-    private String m_error;    
-    private String m_projectTeamApplication;
-    private ArrayList<QueryData> m_queryArray;  
-    private int m_updateAmount;
+    private QueryJDBC jdbcData;
+    private String error;
+    private String projectTeamApplication;
+    private ArrayList<QueryData> queryArray;
+    private int updateAmount;
             
     /**
      * @param args the command line arguments.
@@ -360,22 +352,31 @@ public class QueryRunner {
                 // for (i=0;i < n; i++) {
                 for (int i = 0; i < n; i++) {
 
-                    // Is it a query that Has Parameters
-                    //       Then
-                    //           amt = find out how many parameters it has
-                    //           Create a paramter array of strings for that amount
-                    //           for (j=0; j< amt; j++)
-                    //              Get The Paramater Label for Query and print it to console. Ask the user to enter a value
-                    //              Take the value you got and put it into your parameter array
-                    //           If it is an Action Query then
-                    //              call ExecuteUpdate to run the Query
-                    //              call GetUpdateAmount to find out how many rows were affected, and print that value
-                    //           else
-                    //               call ExecuteQuery
-                    //               call GetQueryData to get the results back
-                    //               print out all the results
-                    //           end if
-                    //      }
+                    // Is it a query that has parameters
+                    if (queryrunner.isParameterQuery(i)) {
+                        // amt = find out how many parameters it has
+                        int amt = queryrunner.GetParameterAmtForQuery(i);
+
+                        // Create a parameter array of strings for that amount
+                        String paramArray[] = new String[amt];
+
+                        // for (j=0; j< amt; j++)
+                        for (int j = 0; j < amt; j++) {
+
+                            // Get the parameter label for query and print it to
+                            // console. Ask the user to enter a value
+
+                        //              Take the value you got and put it into your parameter array
+                        //           If it is an Action Query then
+                        //              call ExecuteUpdate to run the Query
+                        //              call GetUpdateAmount to find out how many rows were affected, and print that value
+                        //           else
+                        //               call ExecuteQuery
+                        //               call GetQueryData to get the results back
+                        //               print out all the results
+                        //           end if
+                        //      }
+                    }
                 }
 
                 // Disconnect()

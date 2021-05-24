@@ -21,11 +21,11 @@ public class QueryData {
     
     QueryData(String query, String[] parms, boolean [] likeparms,
               boolean isAction, boolean isParm) {
-        m_queryString = query;
-        m_arrayParms = parms;
-        m_arrayLikeParms = likeparms;
-        m_isAction = isAction;
-        m_isParms = isParm;        
+        queryString = query;
+        arrayParms = parms;
+        arrayLikeParms = likeparms;
+        isAction = isAction;
+        isParms = isParm;
     }
     
 //    void Set(String query, ArrayList<String>parms, boolean isAction, boolean isParm)
@@ -38,45 +38,45 @@ public class QueryData {
     
     String GetQueryString()
     {
-        return m_queryString;
+        return queryString;
     }
     
     int GetParmAmount() {
-        if (m_arrayParms == null)
+        if (arrayParms == null)
             return 0;
         else
-            return m_arrayParms.length;
+            return arrayParms.length;
     }
     
   
     String GetParamText(int index)
     {
-        return m_arrayParms[index];
+        return arrayParms[index];
     }
     
     boolean GetLikeParam(int index)
     {
-        return m_arrayLikeParms[index];
+        return arrayLikeParms[index];
     }
     
     boolean [] GetAllLikeParams()
     {
-        return m_arrayLikeParms;
+        return arrayLikeParms;
     }
     
     boolean IsQueryAction()
     {
-        return m_isAction;
+        return isAction;
     }
     
     boolean IsQueryParm()
     {
-        return m_isParms;
+        return isParms;
     }
      
-    private String m_queryString;
-    private String [] m_arrayParms;
-    private boolean m_isAction;
-    private boolean m_isParms;   
-    private boolean [] m_arrayLikeParms;
+    private String queryString;
+    private String [] arrayParms;
+    private boolean isAction;
+    private boolean isParms;
+    private boolean [] arrayLikeParms;
 }
