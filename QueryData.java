@@ -12,16 +12,15 @@ import java.util.ArrayList;
  * @author mckeem
  */
 public class QueryData {
-     QueryData()
-    {
+     QueryData() {
     }
 //    QueryData(String query)
 //    {
 //        m_queryString = query;
 //    }
     
-    QueryData(String query, String[] parms, boolean [] likeparms, boolean isAction, boolean isParm)
-    {
+    QueryData(String query, String[] parms, boolean [] likeparms,
+              boolean isAction, boolean isParm) {
         m_queryString = query;
         m_arrayParms = parms;
         m_arrayLikeParms = likeparms;
@@ -42,8 +41,7 @@ public class QueryData {
         return m_queryString;
     }
     
-    int GetParmAmount()
-    {
+    int GetParmAmount() {
         if (m_arrayParms == null)
             return 0;
         else
