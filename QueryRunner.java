@@ -257,7 +257,7 @@ public class QueryRunner {
     public String GetProjectTeamApplication() {
         return projectTeamApplication;
     }
-    public boolean  isActionQuery (int queryChoice) {
+    public boolean isActionQuery (int queryChoice) {
         QueryData e = queryArray.get(queryChoice);
         return e.IsQueryAction();
     }
@@ -276,14 +276,13 @@ public class QueryRunner {
         return bOK;
     }
     
-     public boolean ExecuteUpdate(int queryChoice, String [] parms) {
+    public boolean ExecuteUpdate(int queryChoice, String [] parms) {
         boolean bOK = true;
         QueryData e = queryArray.get(queryChoice);
         bOK = jdbcData.ExecuteUpdate(e.GetQueryString(), parms);
         updateAmount = jdbcData.GetUpdateCount();
         return bOK;
-    }   
-    
+    }
       
     public boolean Connect(String szHost, String szUser, String szPass,
                            String szDatabase) {
@@ -369,21 +368,29 @@ public class QueryRunner {
                             // console. Ask the user to enter a value
                             System.out.print(queryrunner.GetParamText(i, j) + ": ");
 
-                            // Take the value you got and put it into your parameter array
+                            // Take the value and put it into parameter array
                             paramArray[j] = keyboard.nextLine();
 
                             // Close Scanner.
                             keyboard.close();
                         }
 
-                        // If it is an Action Query then
-                        if
+                        // If it is an action query then
+                        if (queryrunner.isActionQuery(i)) {
+                            // call ExecuteUpdate to run the Query
+                            queryrunner.ExecuteUpdate(i, paramArray);
 
-                            //              call ExecuteUpdate to run the Query
-                            //              call GetUpdateAmount to find out how many rows were affected, and print that value
-                            //           else
-                            //               call ExecuteQuery
-                            //               call GetQueryData to get the results back
+                            // call GetUpdateAmount to find out how many rows
+                            // were affected, and print that value
+                            System.out.println(queryrunner.GetUpdateAmount() +
+                                    " rows affected.");
+
+                        } else {
+                            // call ExecuteQuery
+                            queryrunner.ExecuteQuery(i, paramArray);
+                        }
+                        
+                        // call GetQueryData to get the results back
                             //               print out all the results
                             //           end if
                     }
