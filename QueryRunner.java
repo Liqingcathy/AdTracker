@@ -107,9 +107,9 @@ public class QueryRunner {
                 "ad_group_impressions as impressions, \n\t" +
                 "ad_group_clicks as clicks, ad_group_cpc as cpc, \n\t" +
                 "ad_group_spends as spends, ad_group_sales as sales, \n\t" +
-        	    "ad_group_orders as orders, \n\t" +
-        	    "round((ad_group_orders / ad_group_clicks)*100, 2) as \"conv rate(%)\", \n\t" +
-        	    "ad_group_acos as ACOS, ad_group_roas as ROAS \n" +
+                "ad_group_orders as orders, \n\t" +
+                "round((ad_group_orders / ad_group_clicks)*100, 2) as \"conv rate(%)\", \n\t" +
+                "ad_group_acos as ACOS, ad_group_roas as ROAS \n" +
         "FROM Campaign \n" +
         "JOIN Ad_Group USING(campaign_id) \n" +
         "JOIN Ad_Group_Performance USING(ad_group_id) \n" +
