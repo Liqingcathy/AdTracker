@@ -45,7 +45,7 @@ public class QueryRunner {
 
         // PRODUCT QUERIES
 
-        // Search for a product.
+        // 1. Search for a product.
         queryArray.add(new QueryData(
          "SELECT " +
                 "seller_name, product_name, product_rating, \n\t" +
@@ -58,7 +58,7 @@ public class QueryRunner {
          new String [] {"Seller", "Product"}, new boolean [] {true, true},
          false, true));
 
-        // Overview of product performance by seller.
+        // 2. Overview of product performance by seller.
         queryArray.add(new QueryData(
         "SELECT " + 
                "seller_name, round(avg(product_rating), 1) AVGRATING, \n\t" +
@@ -70,7 +70,7 @@ public class QueryRunner {
         "ORDER BY AVGRATING desc, AVGREVIEWS desc, AVGPRICE;",
         null, null, false, true));
         
-        // Allows users to catch a glimpse of the top 5 rated products in a given
+        // 3. Allows users to catch a glimpse of the top 5 rated products in a given
         // category
         // User input: outdoors, electronics, clothing
         queryArray.add(new QueryData(
@@ -86,7 +86,7 @@ public class QueryRunner {
         new String[] {"Product Category"}, new boolean [] {true},
         false, true));
 
-        // Insert new product.
+        // 4. Insert new product.
         queryArray.add(new QueryData(
         "INSERT INTO Product \n\t" +
                 "(product_name, seller_id, product_description, " +
@@ -97,9 +97,24 @@ public class QueryRunner {
         new boolean [] {false, false, false, false},
         true, true));
 
-        // CAMPAIGN QUERIES
 
-        //Overview of top performing ad campaigns and ad groups
+        
+        // 5.Overview of top 5 performing managers by clicks. 
+        queryArray.add(new QueryData(
+         "Select " +
+                 "manager_id, manager_first_name, manager_last_name, \n\t" +
+                 "campaign_id, campaign_name, campaign_clicks \n" +
+         "FROM Account_Manager \n" +
+         "JOIN Campaign USING (manager_id)\n" +
+         "JOIN Campaign_Performance USING (campaign_id) \n" +
+         "WHERE campaign_clicks = (Select MAX(campaign_clicks) \n\t\t\t\t\t\t " +
+                                  "FROM Campaign_Performance \n\t\t\t\t\t\t " +
+                                  "GROUP BY manager_ID) \n" +
+         "ORDER BY campaign_clicks DESC",
+         null, null, false, false));
+
+        
+        // 6. Overview of top performing ad campaigns and ad groups. 
         queryArray.add(new QueryData(
          "SELECT " +
                 "campaign_id, campaign_name, ad_group_name, \n\t" +
@@ -116,23 +131,8 @@ public class QueryRunner {
         "ORDER BY ad_group_acos, ad_group_id;",
     	null, null, false, false));
         
-        // Overview of top 5 performing managers by clicks. Can be deleted if we have enough other queries
-        queryArray.add(new QueryData(
-         "Select " +
-                 "manager_id, manager_first_name, manager_last_name, \n\t" +
-                 "campaign_id, campaign_name, campaign_clicks \n" +
-         "FROM Account_Manager \n" +
-         "JOIN Campaign USING (manager_id)\n" +
-         "JOIN Campaign_Performance USING (campaign_id) \n" +
-         "WHERE campaign_clicks = (Select MAX(campaign_clicks) \n\t\t\t\t\t\t " +
-                                  "FROM Campaign_Performance \n\t\t\t\t\t\t " +
-                                  "GROUP BY manager_ID) \n" +
-         "ORDER BY campaign_clicks DESC",
-         null, null, false, false));
-
-        // Overview of top performing ad campaigns and ad groups.
-        // User intput: ACOS, ROAS. Doesn't filter.
-        // Might not be able to filer numbers - Nathan
+        
+        // 7. Overview of top performing ad campaigns and ad groups.(User input: ACOS <, ROAS > )
         queryArray.add(new QueryData(
          "SELECT " +
                  "campaign_id, campaign_name, ad_group_name, \n\t" +
@@ -151,7 +151,7 @@ public class QueryRunner {
          new String [] {"ACOS", "ROAS"}, new boolean [] {false, false},
          false, true));
         
-         // Allow user to search for open ad groups and ad group name 
+         // 8. Allow user to search for open ad groups and ad group name 
          // containing the name of a targeted product and ad group type (e.g. 
          // User input: ad group name: tent, keyboard, shirt 
          //             ad group type (sponsored): brand, product
@@ -172,7 +172,7 @@ public class QueryRunner {
          new String [] {"Ad Group Name", "Ad Group Type"},
          new boolean [] {true, true}, false, true));
 
-        // Top performing keyword.
+        // 9. Top performing keyword(click through rate > 0.4 , acos < 0.7, roas > 0.4))
         queryArray.add(new QueryData(
          "SELECT " +
                  "ad_group_name, ad_group_budget, \n\t" +
@@ -190,8 +190,8 @@ public class QueryRunner {
          "ORDER BY keyword_acos asc;",
          null, null, false, false));
     
-        // Good performing ads groups with sales greater than average.
-        // User input: campaign_name with special strategy(competitor, defensive, generic)
+        // 10. Good performing ads groups with sales greater than average.
+        // User input: campaign_name(includes special strategy-competitor, defensive, generic...)
         queryArray.add(new QueryData(
          "SELECT " +
                  "c.campaign_id, c.campaign_name, a.ad_group_start, \n\t" +
