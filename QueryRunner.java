@@ -101,21 +101,19 @@ public class QueryRunner {
 
         //Overview of top performing ad campaigns and ad groups
         queryArray.add(new QueryData(
-            "	SELECT " +
-                "campaign_id, " +
-        	    "campaign_name, " +
-        	    "ad_group_name, ad_group_impressions as impressions, " +
-        	    "ad_group_clicks as clicks, ad_group_cpc as cpc, " +
-        	    "ad_group_spends as spends, ad_group_sales as sales," +
-        	    "ad_group_orders as orders, " +
-        	    "round((ad_group_orders / ad_group_clicks)*100, 2) as \"conv rate(%)\"," +
-        	    "ad_group_acos as ACOS, ad_group_roas as ROAS " +
-        	"FROM Campaign " +
-        	"JOIN Ad_Group USING(campaign_id) " +
-        	"JOIN Ad_Group_Performance USING(ad_group_id) " +
-        	"WHERE ad_group_acos < 0.3 or ad_group_roas > 0.5 " +
-        	"ORDER BY ad_group_acos, ad_group_id;",
-    		null, null, false, false));
+        "SELECT campaign_id, campaign_name, ad_group_name, \n\t" +
+                "ad_group_impressions as impressions, \n\t" +
+                "ad_group_clicks as clicks, ad_group_cpc as cpc, \n\t" +
+                "ad_group_spends as spends, ad_group_sales as sales, \n\t" +
+        	    "ad_group_orders as orders, \n\t" +
+        	    "round((ad_group_orders / ad_group_clicks)*100, 2) as \"conv rate(%)\", \n\t" +
+        	    "ad_group_acos as ACOS, ad_group_roas as ROAS \n" +
+        "FROM Campaign \n" +
+        "JOIN Ad_Group USING(campaign_id) \n" +
+        "JOIN Ad_Group_Performance USING(ad_group_id) \n" +
+        "WHERE ad_group_acos < 0.3 or ad_group_roas > 0.5 \n" +
+        "ORDER BY ad_group_acos, ad_group_id;",
+    	null, null, false, false));
         
         // Overview of top 5 performing managers by clicks. Can be deleted if we have enough other queries
         queryArray.add(new QueryData(
