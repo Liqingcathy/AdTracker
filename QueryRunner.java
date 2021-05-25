@@ -126,8 +126,8 @@ public class QueryRunner {
          "JOIN Campaign USING (manager_id)\n" +
          "JOIN Campaign_Performance USING (campaign_id) \n" +
          "WHERE campaign_clicks = (Select MAX(campaign_clicks) \n\t\t\t\t\t\t " +
-         "FROM Campaign_Performance \n\t\t\t\t\t\t " +
-         "GROUP BY manager_ID) \n" +
+                                  "FROM Campaign_Performance \n\t\t\t\t\t\t " +
+                                  "GROUP BY manager_ID) \n" +
          "ORDER BY campaign_clicks DESC",
          null, null, false, false));
 
