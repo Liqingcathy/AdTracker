@@ -175,23 +175,21 @@ public class QueryRunner {
 
         // Top performing keyword.
         queryArray.add(new QueryData(
-        	"	SELECT \r\n" +
-        	    "ad_group_name, ad_group_budget, " +
-        	    "keyword, keyword_impressions as impressions, " +
-        	    "keyword_clicks as clicks , keyword_ctr as 'ctr(%)', keyword_cpc as cpc, " +
-        	    "keyword_orders as orders, " +
-        	    "round((keyword_orders / keyword_clicks)*100, 2) as 'conv rate(%)', " +
-        	    "keyword_spends as spends , keyword_sales as sales, " +
-        	    "keyword_acos as ACOS , keyword_roas as ROAS " +
-        	"FROM Keyword " +
-        	"JOIN Ad_Group USING (ad_group_id) " +
-        	"JOIN Keyword_Performance USING (keyword_id) " +
-        	"WHERE " +
-        	    "keyword_ctr > 0.4 " +
-        	    "AND keyword_acos < 0.7 " +
-        	    "AND keyword_roas > 0.4 " +
-        	"ORDER BY keyword_acos asc;",
-        	null, null, false, false));
+         "SELECT " +
+                 "ad_group_name, ad_group_budget, \n\t" +
+                 "keyword, keyword_impressions as impressions, \n\t" +
+                 "keyword_clicks as clicks , keyword_ctr as 'ctr(%)', \n\t" +
+                 "keyword_cpc as cpc, keyword_orders as orders, \n\t" +
+                 "round((keyword_orders / keyword_clicks)*100, 2) " +
+                 "as 'conv rate(%)', \n\t" +
+                 "keyword_spends as spends , keyword_sales as sales, \n\t" +
+                 "keyword_acos as ACOS , keyword_roas as ROAS \n" +
+         "FROM Keyword \n" +
+         "JOIN Ad_Group USING (ad_group_id) \n" +
+         "JOIN Keyword_Performance USING (keyword_id) \n" +
+         "WHERE keyword_ctr > 0.4 AND keyword_acos < 0.7 AND keyword_roas > 0.4 \n" +
+         "ORDER BY keyword_acos asc;",
+         null, null, false, false));
     
         // Good performing ads groups with sales greater than average.
         // User input: campaign_name with special strategy(competitor, defensive, generic)
