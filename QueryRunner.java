@@ -75,7 +75,8 @@ public class QueryRunner {
         // category
         // User input: outdoors, electronics, clothing
         queryArray.add(new QueryData(
-        "SELECT P.product_id, product_name, seller_name,\n\t" + 
+        "SELECT " + 
+               "P.product_id, product_name, seller_name,\n\t" + 
                "product_description as description, product_price as price,\n\t" + 
                "product_rating as rating, product_reviews as reviews,\n\t" +
                "C.manager_id, campaign_id\n" +
@@ -101,7 +102,8 @@ public class QueryRunner {
 
         //Overview of top performing ad campaigns and ad groups
         queryArray.add(new QueryData(
-        "SELECT campaign_id, campaign_name, ad_group_name, \n\t" +
+        "SELECT " +
+                "campaign_id, campaign_name, ad_group_name, \n\t" +
                 "ad_group_impressions as impressions, \n\t" +
                 "ad_group_clicks as clicks, ad_group_cpc as cpc, \n\t" +
                 "ad_group_spends as spends, ad_group_sales as sales, \n\t" +
