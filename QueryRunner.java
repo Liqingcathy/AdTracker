@@ -95,7 +95,7 @@ public class QueryRunner {
         new String [] {"Product Name", "Seller ID",
                        "Product Description", "Product Price"},
         new boolean [] {false, false, false, false},
-       true, true));
+        true, true));
 
         // CAMPAIGN QUERIES
 
