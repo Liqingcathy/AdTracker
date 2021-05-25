@@ -5,8 +5,6 @@
  */
 package queryrunner;
 
-import java.util.ArrayList;
-
 /**
  *
  * @author mckeem
