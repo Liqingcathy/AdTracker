@@ -54,7 +54,7 @@ public class QueryRunner {
          "FROM Seller \n" +
          "JOIN Product USING (seller_id) \n" +
          "WHERE seller_name LIKE CONCAT('%', ?, '%') \n\t" +
-         "AND product_name LIKE CONCAT('%', ?, '%') \n" +
+                "AND product_name LIKE CONCAT('%', ?, '%') \n" +
          "ORDER BY seller_name, product_name;",
          new String [] {"Seller", "Product"}, new boolean [] {true, true},
          false, true));
