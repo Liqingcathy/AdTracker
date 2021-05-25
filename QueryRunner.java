@@ -48,29 +48,28 @@ public class QueryRunner {
 
         // Search for a product.
         queryArray.add(new QueryData(
-            "SELECT " +
-                "seller_name, " +
-                "product_name, product_rating, " +
-                "product_reviews, product_price " +
-            "FROM Seller \n" +
-            "JOIN Product USING (seller_id) " +
-            "WHERE seller_name LIKE CONCAT('%', ?, '%') " +
-            "AND product_name LIKE CONCAT('%', ?, '%') " +
-            "ORDER BY seller_name, product_name;",
-            new String [] {"Seller", "Product"}, new boolean [] {true, true},  false, true));
+         "SELECT " +
+                "seller_name, product_name, product_rating, \n\t" +
+                "product_reviews product_price \n" +
+         "FROM Seller \n" +
+         "JOIN Product USING (seller_id) \n" +
+         "WHERE seller_name LIKE CONCAT('%', ?, '%') \n\t" +
+         "AND product_name LIKE CONCAT('%', ?, '%') \n" +
+         "ORDER BY seller_name, product_name;",
+         new String [] {"Seller", "Product"}, new boolean [] {true, true},
+         false, true));
 
         // Overview of product performance by seller.
         queryArray.add(new QueryData(
-            "SELECT " +
-                "seller_name, " +
-                "round(avg(product_rating), 1) AVGRATING, " +
-                "round(avg(product_reviews), 0) AVGREVIEWS, " +
-                "round(avg(product_price), 2) AVGPRICE " +
-            "FROM Seller " +
-            "JOIN Product USING (seller_id) " +
-            "GROUP BY seller_id " +
-            "ORDER BY AVGRATING desc, AVGREVIEWS desc, AVGPRICE;",
-            null, null, false, true));
+        "SELECT " + 
+               "seller_name, round(avg(product_rating), 1) AVGRATING, \n\t" +
+                "round(avg(product_reviews), 0) AVGREVIEWS, \n\t" +
+                "round(avg(product_price), 2) AVGPRICE \n" + 
+        "FROM Seller \n" + 
+        "JOIN Product USING (seller_id) \n" +
+        "GROUP BY seller_id \n" +
+        "ORDER BY AVGRATING desc, AVGREVIEWS desc, AVGPRICE;",
+        null, null, false, true));
         
         // Allows users to catch a glimpse of the top 5 rated products in a given
         // category
