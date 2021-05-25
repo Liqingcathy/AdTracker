@@ -88,12 +88,15 @@ public class QueryRunner {
 
         // Insert new product.
         queryArray.add(new QueryData(
-            "INSERT INTO Product (product_name, seller_id,\n" +
-                    "product_description, product_price) values (?,?,?,?);",
-            new String [] {"Product Name", "Seller ID", "Product Description", "Product Price"},
-            new boolean [] {false, false, false, false}, true, true));
+        "INSERT INTO Product \n\t" +
+                "(product_name, seller_id, product_description, " +
+                "product_price)\n" +
+        "VALUES (?,?,?,?);",
+        new String [] {"Product Name", "Seller ID",
+                       "Product Description", "Product Price"},
+        new boolean [] {false, false, false, false},
+       true, true));
 
-        
         // CAMPAIGN QUERIES
 
         //Overview of top performing ad campaigns and ad groups
