@@ -194,23 +194,23 @@ public class QueryRunner {
         // Good performing ads groups with sales greater than average.
         // User input: campaign_name with special strategy(competitor, defensive, generic)
         queryArray.add(new QueryData(
-        	"SELECT " +
-        	    "c.campaign_id, c.campaign_name, " +
-        	    "a.ad_group_start, a.ad_group_name, " +
-        	    "p.product_name, p.product_description as 'prod descript', " +
-        	    "p.product_price as price, " +
-        	    "pf.ad_group_orders as orders, pf.ad_group_sales as sales, " +
-        	    "round((ad_group_sales / ad_group_orders), 0) as 'sales unit' " +
-        	"FROM Campaign c " +
-        	"JOIN Ad_Group a ON c.campaign_id = a.campaign_id " +
-        	"JOIN Ad_Group_Performance pf ON a.ad_group_id = pf.ad_group_id " +
-        	"JOIN Product p ON c.product_id = p.product_id " +
-        	"WHERE campaign_name LIKE CONCAT('%', ?, '%') " +
-        	"AND ad_group_sales > (" +
-        	    "SELECT avg(ad_group_sales) as 'avg sales' " +
-        	    "FROM Ad_Group_Performance) " +
-        	"ORDER BY ad_group_sales desc;",
-        	new String [] {"Campaign Name"}, new boolean [] {true}, false, true));
+         "SELECT " +
+                 "c.campaign_id, c.campaign_name, a.ad_group_start, \n\t" +
+                 "a.ad_group_name, p.product_name, \n\t" +
+                 "p.product_description as 'prod descript', " +
+                 "p.product_price as price, pf.ad_group_orders as orders, \n\t" +
+                 "pf.ad_group_sales as sales, \n\t" +
+                 "round((ad_group_sales / ad_group_orders), 0) as 'sales unit' \n" +
+         "FROM Campaign c \n" +
+         "JOIN Ad_Group a ON c.campaign_id = a.campaign_id \n" +
+         "JOIN Ad_Group_Performance pf ON a.ad_group_id = pf.ad_group_id \n" +
+         "JOIN Product p ON c.product_id = p.product_id \n" +
+         "WHERE campaign_name LIKE CONCAT('%', ?, '%') \n\t" +
+                "AND ad_group_sales > (SELECT avg(ad_group_sales) as 'avg sales' " +
+        	                    "\n   \t\t\t\t\t\tFROM Ad_Group_Performance) \n" +
+         "ORDER BY ad_group_sales desc;",
+         new String [] {"Campaign Name"}, new boolean [] {true},
+         false, true));
     }
     
     public int GetTotalQueries() {
