@@ -156,18 +156,22 @@ public class QueryRunner {
          // containing the name of a targeted product and ad group type (e.g. 
          // User input: ad group name: tent, keyboard, shirt 
          //             ad group type (sponsored): brand, product
-         queryArray.add(new QueryData(
-                "SELECT ad_group_id, ad_group_name, ad_group_start, " +
-                "ad_group_end, ad_group_impressions as impressions, ad_group_clicks as clicks, " +
-                "ad_group_cpc as cpc, ad_group_ctr as 'ctr(%)', ad_group_sales as sales, " +
-                "ad_group_spends as spends, ad_group_acos AS ACOS, ad_group_roas as ROAS " +
-                "FROM Ad_Group " +
-                "JOIN Ad_Group_Performance USING (ad_group_id) " +
-                "WHERE ad_group_name LIKE CONCAT('%', ?, '%') AND ad_group_type LIKE CONCAT('%', ?, '%')  " +
-                "HAVING ad_group_end IS NULL " +
-                "ORDER BY sales DESC",
-                new String [] {"Ad Group Name", "Ad Group Type"}, new boolean [] {true, true},
-                false, true));
+        queryArray.add(new QueryData(
+         "SELECT " +
+                 "ad_group_id, ad_group_name, ad_group_start, \n\t" +
+                 "ad_group_end, ad_group_impressions as impressions, \n\t" +
+                 "ad_group_clicks as clicks, ad_group_cpc as cpc, \n\t" +
+                 "ad_group_ctr as 'ctr(%)', ad_group_sales as sales, \n\t" +
+                 "ad_group_spends as spends, ad_group_acos AS ACOS, \n\t" +
+                 "ad_group_roas as ROAS \n" +
+         "FROM Ad_Group \n" +
+         "JOIN Ad_Group_Performance USING (ad_group_id) \n" +
+         "WHERE ad_group_name LIKE CONCAT('%', ?, '%') \n\t" +
+                "AND ad_group_type LIKE CONCAT('%', ?, '%') \n" +
+         "HAVING ad_group_end IS NULL \n" +
+         "ORDER BY sales DESC",
+         new String [] {"Ad Group Name", "Ad Group Type"},
+         new boolean [] {true, true}, false, true));
 
         // Top performing keyword.
         queryArray.add(new QueryData(
