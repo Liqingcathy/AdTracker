@@ -5,7 +5,6 @@
  */
 package queryrunner;
 
-import javax.net.ssl.SSLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -275,7 +274,7 @@ public class QueryRunner {
     
      
     public boolean ExecuteQuery(int queryChoice, String [] params) {
-        boolean bOK = true;
+        boolean bOK;
         QueryData e = queryArray.get(queryChoice);
         bOK = jdbcData.ExecuteQuery(e.GetQueryString(), params,
                 e.GetAllLikeParams());
@@ -283,7 +282,7 @@ public class QueryRunner {
     }
     
     public boolean ExecuteUpdate(int queryChoice, String [] parms) {
-        boolean bOK = true;
+        boolean bOK;
         QueryData e = queryArray.get(queryChoice);
         bOK = jdbcData.ExecuteUpdate(e.GetQueryString(), parms);
         updateAmount = jdbcData.GetUpdateCount();
@@ -294,7 +293,7 @@ public class QueryRunner {
                            String szDatabase) {
         boolean bConnect = jdbcData.ConnectToDatabase(szHost, szUser, szPass,
                 szDatabase);
-        if (bConnect == false)
+        if (!bConnect)
             error = jdbcData.GetError();
         return bConnect;
     }
@@ -311,29 +310,24 @@ public class QueryRunner {
         return error;
     }
  
-    private QueryJDBC jdbcData;
+    private final QueryJDBC jdbcData;
     private String error;
-    private String projectTeamApplication;
-    private ArrayList<QueryData> queryArray;
+    private final String projectTeamApplication;
+    private final ArrayList<QueryData> queryArray;
     private int updateAmount;
             
     /**
      * @param args the command line arguments.
      */
     public static void main(String[] args) {
-        // TODO code application logic here
 
         final QueryRunner queryrunner = new QueryRunner();
         
         if (args.length == 0) {
-            java.awt.EventQueue.invokeLater(new Runnable() {
-                public void run() {
-                    new QueryFrame(queryrunner).setVisible(true);
-                }            
-            });
+            java.awt.EventQueue.invokeLater(
+                    () -> new QueryFrame(queryrunner).setVisible(true));
         } else {
             if (args[0].equals ("-console")) {
-                // TODO
 
                 // Create Scanner object.
                 Scanner keyboard = new Scanner(System.in);
@@ -342,6 +336,10 @@ public class QueryRunner {
                 queryrunner.Connect(
                         "database-1.crvrlpwsgqaw.us-east-1.rds.amazonaws.com",
                         "admin", "group3aws", "Group3");
+
+                System.out.println("\nADOPTIMIZER\n\nEach query will be " +
+                        "printed, followed by its results. If the\nquery " +
+                        "requires parameters, the user will be prompted for them.");
 
                 // n = GetTotalQueries()
                 int n = queryrunner.GetTotalQueries();
@@ -365,14 +363,11 @@ public class QueryRunner {
 
                         // Create a parameter array of strings for that amount
                         paramArray = new String[amt];
-
                         System.out.println();
-                        // for (j=0; j< amt; j++)
                         for (int j = 0; j < amt; j++) {
                             // Get the parameter label for query and print it to
                             // console. Ask the user to enter a value
                             System.out.print(queryrunner.GetParamText(i, j) + ": ");
-
                             // Take the value and put it into parameter array
                             paramArray[j] = keyboard.nextLine();
                         }
@@ -397,8 +392,8 @@ public class QueryRunner {
 
                         // Print out all the results
                         System.out.println();
-                        for (int h = 0; h < headers.length; h++) {
-                            System.out.printf("%-32s", headers[h]);
+                        for (String header : headers) {
+                            System.out.printf("%-32s", header);
                         }
                         System.out.println();
 
@@ -414,7 +409,12 @@ public class QueryRunner {
                 // Close Scanner.
                 keyboard.close();
 
-                System.out.println("\nErrors: " + queryrunner.GetError());
+                // Print errors.
+                String errors = queryrunner.GetError();
+                if (errors.isEmpty())
+                    System.out.println("Completed with no errors");
+                else
+                    System.out.println("\nErrors: " + errors);
 
                 // Disconnect()
                 queryrunner.Disconnect();
