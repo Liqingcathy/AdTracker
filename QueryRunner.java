@@ -102,7 +102,7 @@ public class QueryRunner {
 
         //Overview of top performing ad campaigns and ad groups
         queryArray.add(new QueryData(
-        "SELECT " +
+         "SELECT " +
                 "campaign_id, campaign_name, ad_group_name, \n\t" +
                 "ad_group_impressions as impressions, \n\t" +
                 "ad_group_clicks as clicks, ad_group_cpc as cpc, \n\t" +
