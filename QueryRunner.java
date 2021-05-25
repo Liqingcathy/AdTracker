@@ -63,8 +63,8 @@ public class QueryRunner {
         queryArray.add(new QueryData(
         "SELECT " + 
                "seller_name, round(avg(product_rating), 1) AVGRATING, \n\t" +
-                "round(avg(product_reviews), 0) AVGREVIEWS, \n\t" +
-                "round(avg(product_price), 2) AVGPRICE \n" + 
+               "round(avg(product_reviews), 0) AVGREVIEWS, \n\t" +
+               "round(avg(product_price), 2) AVGPRICE \n" + 
         "FROM Seller \n" + 
         "JOIN Product USING (seller_id) \n" +
         "GROUP BY seller_id \n" +
