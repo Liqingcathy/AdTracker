@@ -75,15 +75,16 @@ public class QueryRunner {
         // category
         // User input: outdoors, electronics, clothing
         queryArray.add(new QueryData(
-            "SELECT P.product_id, product_name, seller_name,\n" +
-                "product_description as description, product_price as price,\n\t" +
-                "product_rating as rating, product_reviews as reviews,\n\t" +
-                "C.manager_id, campaign_id\n\t" +
-            "FROM Product P Join Seller USING (seller_id) Join Campaign C USING (seller_id)\n" +
-            "WHERE product_description LIKE CONCAT('%', ?, '%')\n" +
-            "ORDER BY P.product_rating DESC, P.product_reviews DESC\n" +
-            "LIMIT 5",
-            new String[] {"Product Category"}, new boolean [] {true}, false, true));
+        "SELECT P.product_id, product_name, seller_name,\n\t" + 
+               "product_description as description, product_price as price,\n\t" + 
+               "product_rating as rating, product_reviews as reviews,\n\t" +
+               "C.manager_id, campaign_id\n" +
+        "FROM Product P Join Seller USING (seller_id) Join Campaign C USING (seller_id)\n" +
+        "WHERE product_description LIKE CONCAT('%', ?, '%')\n" +
+        "ORDER BY P.product_rating DESC, P.product_reviews DESC\n" +
+        "LIMIT 5",
+        new String[] {"Product Category"}, new boolean [] {true},
+        false, true));
 
         // Insert new product.
         queryArray.add(new QueryData(
