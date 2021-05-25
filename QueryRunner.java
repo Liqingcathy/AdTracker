@@ -119,15 +119,17 @@ public class QueryRunner {
         
         // Overview of top 5 performing managers by clicks. Can be deleted if we have enough other queries
         queryArray.add(new QueryData(
-            "Select manager_id, manager_first_name, manager_last_name, " +
-                "campaign_id, campaign_name, campaign_clicks " +
-                "FROM Account_Manager " +
-                "JOIN Campaign USING (manager_id)" +
-                "JOIN Campaign_Performance USING (campaign_id) " +
-                "WHERE campaign_clicks = (Select MAX(campaign_clicks) FROM Campaign_Performance" +
-                                        " GROUP BY manager_ID)" +
-                "ORDER BY campaign_clicks DESC",
-                null, null, false, false));
+         "Select " +
+                 "manager_id, manager_first_name, manager_last_name, \n\t" +
+                 "campaign_id, campaign_name, campaign_clicks \n" +
+         "FROM Account_Manager \n" +
+         "JOIN Campaign USING (manager_id)\n" +
+         "JOIN Campaign_Performance USING (campaign_id) \n" +
+         "WHERE campaign_clicks = (Select MAX(campaign_clicks) \n\t\t\t\t\t\t " +
+         "FROM Campaign_Performance \n\t\t\t\t\t\t " +
+         "GROUP BY manager_ID) \n" +
+         "ORDER BY campaign_clicks DESC",
+         null, null, false, false));
 
         // Overview of top performing ad campaigns and ad groups.
         // User intput: ACOS, ROAS. Doesn't filter.
