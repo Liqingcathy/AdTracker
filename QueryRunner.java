@@ -71,8 +71,9 @@ public class QueryRunner {
         null, null, false, true));
         
         // 3. Allows users to catch a glimpse of the top 5 rated products in a given
-        // category
-        // User input: outdoors, electronics, clothing
+        // category User input: outdoors, electronics, clothing
+        //Consider adding a comment on JFrame pannel: 
+        //Product category currently availble are: outdoors, electronics, clothing
         queryArray.add(new QueryData(
         "SELECT " + 
                "P.product_id, product_name, seller_name,\n\t" + 
@@ -107,7 +108,7 @@ public class QueryRunner {
          "FROM Account_Manager \n" +
          "JOIN Campaign USING (manager_id)\n" +
          "JOIN Campaign_Performance USING (campaign_id) \n" +
-         "WHERE campaign_clicks = (Select MAX(campaign_clicks) \n\t\t\t\t\t\t " +
+         "WHERE campaign_clicks > (Select avg(campaign_clicks) \n\t\t\t\t\t\t " +
                                   "FROM Campaign_Performance \n\t\t\t\t\t\t " +
                                   "GROUP BY manager_ID) \n" +
          "ORDER BY campaign_clicks DESC",
