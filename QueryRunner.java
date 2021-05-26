@@ -52,10 +52,9 @@ public class QueryRunner {
                 "product_reviews product_price \n" +
          "FROM Seller \n" +
          "JOIN Product USING (seller_id) \n" +
-         "WHERE seller_id LIKE CONCAT('%', ?, '%') \n\t" +
-                "AND product_name LIKE CONCAT('%', ?, '%') \n" +
+         "WHERE product_name LIKE CONCAT('%', ?, '%') \n" +
          "ORDER BY seller_name, product_name;",
-         new String [] {"Seller", "Product"}, new boolean [] {true, true},
+         new String [] {"Product"}, new boolean [] {true},
          false, true));
 
         // 2. Overview of product performance by seller.
