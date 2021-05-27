@@ -331,9 +331,12 @@ public class QueryRunner {
 
                 // Create Scanner object.
                 Scanner keyboard = new Scanner(System.in);
+                
+                // Create boolean for connection status
+                boolean bOK = true;
 
                 // Connect()
-                queryrunner.Connect(
+                bOK = queryrunner.Connect(
                         "database-1.crvrlpwsgqaw.us-east-1.rds.amazonaws.com",
                         "admin", "group3aws", "Group3");
 
@@ -417,7 +420,9 @@ public class QueryRunner {
                     System.out.println("\nErrors: " + errors);
 
                 // Disconnect()
-                queryrunner.Disconnect();
+                if (bOK = false) {
+                    queryrunner.Disconnect();
+                }
 
 
                 // NOTE - IF THERE ARE ANY ERRORS, please print the Error output
