@@ -23,7 +23,7 @@ public class QueryRunner {
         queryArray = new ArrayList<>();
         error="";
         
-        this.projectTeamApplication="ADOPTIMIZER";
+        this.projectTeamApplication="ADTRACKER";
 
         /*
         Each row that is added to m_queryArray is a separate query. It does
