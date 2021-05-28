@@ -44,9 +44,30 @@ public class QueryRunner {
         */
 
         // PRODUCT QUERIES
+        // 1. Allows users to catch a glimpse of the top 5 rated products in a given
+        // category User input: outdoors, electronics, clothing
+        //Consider adding a comment on JFrame pannel: 
+        //Product category currently availble are: outdoors, electronics, clothing
+        queryArray.add(new QueryData(
+              "Top 5 rated products in a given category.\n"
+            + "Please enter category from \"outdoors\", \"electronics\", \"clothing\"\n",
+            "SELECT " +
+                "P.product_id, product_name, seller_name,\n\t" +
+                "product_description as description, product_price as price,\n\t" +
+                "product_rating as rating, product_reviews as reviews,\n\t" +
+                "C.manager_id, campaign_id\n" +
+            "FROM Product P Join Seller USING (seller_id) Join Campaign C USING (seller_id)\n" +
+            "WHERE product_description LIKE CONCAT('%', ?, '%')\n" +
+            "ORDER BY P.product_rating DESC, P.product_reviews DESC\n" +
+            "LIMIT 5",
+            new String[] {"Product Category"}, new boolean [] {true},
+            false, true));
 
-        // 1. Search for a product.
-        queryArray.add(new QueryData("Search for a product.",
+        // 2. Search for a product.
+        queryArray.add(new QueryData("Search for a product to see product overview.\n "
+        		+ "(Product name format: brand name + category). \n"
+        		+ "To see a specific product, enter a partial brand name keyword.\n"
+        		+ "To see an overiew of a certain category, enter a category name.\n",
             "SELECT " +
                 "seller_name, product_name, product_rating, \n\t" +
                 "product_reviews product_price \n" +
@@ -57,7 +78,7 @@ public class QueryRunner {
             new String [] {"Product"}, new boolean [] {true},
             false, true));
 
-        // 2. Overview of product performance by seller.
+        // 3. Overview of product performance by seller.
         queryArray.add(new QueryData(
             "Overview of product performance by seller.",
             "SELECT " +
@@ -70,23 +91,7 @@ public class QueryRunner {
             "ORDER BY AVGRATING desc, AVGREVIEWS desc, AVGPRICE;",
             null, null, false, true));
         
-        // 3. Allows users to catch a glimpse of the top 5 rated products in a given
-        // category User input: outdoors, electronics, clothing
-        //Consider adding a comment on JFrame pannel: 
-        //Product category currently availble are: outdoors, electronics, clothing
-        queryArray.add(new QueryData(
-            "Top 5 rated products in a given category.",
-            "SELECT " +
-                "P.product_id, product_name, seller_name,\n\t" +
-                "product_description as description, product_price as price,\n\t" +
-                "product_rating as rating, product_reviews as reviews,\n\t" +
-                "C.manager_id, campaign_id\n" +
-            "FROM Product P Join Seller USING (seller_id) Join Campaign C USING (seller_id)\n" +
-            "WHERE product_description LIKE CONCAT('%', ?, '%')\n" +
-            "ORDER BY P.product_rating DESC, P.product_reviews DESC\n" +
-            "LIMIT 5",
-            new String[] {"Product Category"}, new boolean [] {true},
-            false, true));
+        
 
         // 4. Insert new product.
         queryArray.add(new QueryData(
