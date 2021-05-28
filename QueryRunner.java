@@ -109,7 +109,7 @@ public class QueryRunner {
         
         // 5.Overview of top 5 performing managers by clicks. 
         queryArray.add(new QueryData(
-            "Overview of top 5 performing managers by clicks.",
+            "Overview of top performing managers by product clicks.",
             "Select " +
                 "manager_id, manager_first_name, manager_last_name, \n\t" +
                 "campaign_id, campaign_name, campaign_clicks \n" +
@@ -144,7 +144,11 @@ public class QueryRunner {
         
         // 7. Overview of top performing ad campaigns and ad groups. (User input: ACOS <, ROAS >)
         queryArray.add(new QueryData(
-            "Overview of top performing ad campaigns and ad groups. (User input: ACOS <, ROAS >)",
+            "Overview of top performing ad campaigns and ad groups by ACOS and ROAS.\n"
+            + "Please enter decimal number between 0.1-1 to filter\n"
+            + "performance whose ACOS < input, ROAS > input\n"
+            + "**ACOS-Ads spends/Sales,the lower the better.\n"
+            + "**ROAS-Sales/Ad spends,the higher the better.\n",
             "SELECT " +
                  "campaign_id, campaign_name, ad_group_name, \n\t" +
                  "ad_group_impressions as impressions, \n\t" +
@@ -187,7 +191,9 @@ public class QueryRunner {
 
         // 9. Top performing keyword(click through rate > 0.4 , acos < 0.7, roas > 0.4))
         queryArray.add(new QueryData(
-            "Top performing keyword.",
+            "Top performing keyword.\n"
+            + "click through rate > 0.4\n"
+            + "acos < 0.7, roas > 0.4",
             "SELECT " +
                  "ad_group_name, ad_group_budget, \n\t" +
                  "keyword, keyword_impressions as impressions, \n\t" +
@@ -207,7 +213,9 @@ public class QueryRunner {
         // 10. Top performing ads groups with sales greater than average.
         // User input: campaign_name(includes special strategy-competitor, defensive, generic...)
         queryArray.add(new QueryData(
-            "Top performing ads groups with sales greater than average.",
+            "Top performing ads groups with sales greater than average sales.\n"
+            + "Part of campaign names indicate campaign strategy with "
+            + "\"competitor\",  \"defensive\",  \"generic\" keywords\n",
             "SELECT " +
                  "c.campaign_id, c.campaign_name, a.ad_group_start, \n\t" +
                  "a.ad_group_name, p.product_name, \n\t" +
