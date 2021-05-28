@@ -46,8 +46,6 @@ public class QueryRunner {
         // PRODUCT QUERIES
         // 1. Allows users to catch a glimpse of the top 5 rated products in a given
         // category User input: outdoors, electronics, clothing
-        //Consider adding a comment on JFrame pannel: 
-        //Product category currently availble are: outdoors, electronics, clothing
         queryArray.add(new QueryData(
               "Top 5 rated products in a given category.\n"
             + "Please enter category from \"outdoors\", \"electronics\", \"clothing\"\n",
