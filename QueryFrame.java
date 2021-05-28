@@ -35,8 +35,8 @@ public class QueryFrame extends javax.swing.JFrame {
         // If it is a grid query, then enable jtable
         int nAmt = m_queryrunner.GetTotalQueries();
 
-        for (int i=0; i < nAmt; i++) {
-            this.jComboBoxQuery.addItem("Query " + (i+1));
+        for (int i = 0; i < nAmt; i++) {
+            this.jComboBoxQuery.addItem("Query " + (i + 1));
         }
         jComboBoxQuery.setEnabled(false);
         jBtnRunQuery.setEnabled(false);
