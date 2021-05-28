@@ -7,15 +7,12 @@ package queryrunner;
  */
 
 
-/**
- *
- * @author mckeem
- */
-import java.util.ArrayList;
-import java.util.List;
 import java.awt.Color;
 import javax.swing.*;
-
+/**
+ * Query frame.
+ * @author mckeem
+ */
 public class QueryFrame extends javax.swing.JFrame {
 
 /**
@@ -136,7 +133,6 @@ public class QueryFrame extends javax.swing.JFrame {
         jLabel3.setToolTipText("");
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(652, 29, 115, -1));
 
-        jLabel4.setBackground(new java.awt.Color(204, 255, 255));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel4.setText("aaa");
         jLabel4.setToolTipText("");
@@ -228,16 +224,15 @@ public class QueryFrame extends javax.swing.JFrame {
     */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
         //GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        boolean  bOK=true; 
+        boolean  bOK;
         jTextArea2.setText("");      
         
-        if (jConnectButton.getText() == "Connect") {
+        if (jConnectButton.getText().equals("Connect")) {
             bOK = m_queryrunner.Connect(this.jTextHostname.getText(),
                     this.jTextFieldUser.getText(),
                     String.valueOf(this.jPasswordField1.getPassword()),
                     this.jTextFieldDatabase.getText());
-           if (bOK == true) {
+           if (bOK) {
                jConnectButton.setText("Disconnect");    
                jComboBoxQuery.setEnabled(true);
                jBtnRunQuery.setEnabled(true);  
@@ -245,14 +240,14 @@ public class QueryFrame extends javax.swing.JFrame {
         }
         else {
            bOK = m_queryrunner.Disconnect();
-           if (bOK == true) {
+           if (bOK) {
                jConnectButton.setText("Connect");
                jComboBoxQuery.setEnabled(true);
                jBtnRunQuery.setEnabled(true); 
            }
         }
         
-        if (bOK == false) {
+        if (!bOK) {
             this.jTextArea2.setText(m_queryrunner.GetError());
         }       
     } // GEN-LAST:event_jButton1ActionPerformed
@@ -274,7 +269,9 @@ public class QueryFrame extends javax.swing.JFrame {
         String szChoice = (String)jComboBoxQuery.getSelectedItem();        
         String szStripChoice = szChoice.substring(6);
         m_queryChoice = Integer.parseInt(szStripChoice)-1;        
-        String szQuery = m_queryrunner.GetQueryText(m_queryChoice);
+
+        // Changed so that title is returned instead of query.
+        String szQuery = m_queryrunner.GetQueryTitle(m_queryChoice);
         this.jTextArea1.setText(szQuery);
         System.out.println("choice is " + szChoice);
         this.jPanel2.setVisible(false);        
@@ -344,7 +341,7 @@ public class QueryFrame extends javax.swing.JFrame {
         }
         else {
             bOK = m_queryrunner.ExecuteQuery(m_queryChoice, parmstring);
-            if (bOK ==true) {
+            if (bOK) {
                 headers = m_queryrunner.GetQueryHeaders();
                 allData = m_queryrunner.GetQueryData();
 
@@ -355,9 +352,9 @@ public class QueryFrame extends javax.swing.JFrame {
                 m_jTable = new JTable(allData, headers);
                 
                 m_jTable.setBounds(100, 100, 100, 80);
-                Color ivory=new Color(255,255,208);
+                //Color ivory = new Color(255,255,208);
                 m_jTable.setOpaque(false);
-                m_jTable.setBackground(ivory);           
+                m_jTable.setBackground(new java.awt.Color(229, 234, 236));
                 m_scrollPane = new JScrollPane(m_jTable);
                 jPanel2.add(m_scrollPane); // Add table in panel.
                 this.setVisible(true);                
@@ -374,6 +371,7 @@ public class QueryFrame extends javax.swing.JFrame {
     private javax.swing.JButton jConnectButton;
     private javax.swing.JButton jBtnRunQuery;
     private javax.swing.JComboBox<String> jComboBoxQuery;
+    private javax.swing.JComboBox<String> jComboBoxQuery2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

@@ -46,77 +46,82 @@ public class QueryRunner {
         // PRODUCT QUERIES
 
         // 1. Search for a product.
-        queryArray.add(new QueryData(
-         "SELECT " +
+        queryArray.add(new QueryData("Search for a product.",
+            "SELECT " +
                 "seller_name, product_name, product_rating, \n\t" +
                 "product_reviews product_price \n" +
-         "FROM Seller \n" +
-         "JOIN Product USING (seller_id) \n" +
-         "WHERE product_name LIKE CONCAT('%', ?, '%') \n" +
-         "ORDER BY seller_name, product_name;",
-         new String [] {"Product"}, new boolean [] {true},
-         false, true));
+            "FROM Seller \n" +
+            "JOIN Product USING (seller_id) \n" +
+            "WHERE product_name LIKE CONCAT('%', ?, '%') \n" +
+            "ORDER BY seller_name, product_name;",
+            new String [] {"Product"}, new boolean [] {true},
+            false, true));
 
         // 2. Overview of product performance by seller.
         queryArray.add(new QueryData(
-        "SELECT " + 
-               "seller_name, round(avg(product_rating), 1) AVGRATING, \n\t" +
-               "round(avg(product_reviews), 0) AVGREVIEWS, \n\t" +
-               "round(avg(product_price), 2) AVGPRICE \n" + 
-        "FROM Seller \n" + 
-        "JOIN Product USING (seller_id) \n" +
-        "GROUP BY seller_id \n" +
-        "ORDER BY AVGRATING desc, AVGREVIEWS desc, AVGPRICE;",
-        null, null, false, true));
+            "Overview of product performance by seller.",
+            "SELECT " +
+                "seller_name, round(avg(product_rating), 1) AVGRATING, \n\t" +
+                "round(avg(product_reviews), 0) AVGREVIEWS, \n\t" +
+                "round(avg(product_price), 2) AVGPRICE \n" +
+            "FROM Seller \n" +
+            "JOIN Product USING (seller_id) \n" +
+            "GROUP BY seller_id \n" +
+            "ORDER BY AVGRATING desc, AVGREVIEWS desc, AVGPRICE;",
+            null, null, false, true));
         
         // 3. Allows users to catch a glimpse of the top 5 rated products in a given
         // category User input: outdoors, electronics, clothing
         //Consider adding a comment on JFrame pannel: 
         //Product category currently availble are: outdoors, electronics, clothing
         queryArray.add(new QueryData(
-        "SELECT " + 
-               "P.product_id, product_name, seller_name,\n\t" + 
-               "product_description as description, product_price as price,\n\t" + 
-               "product_rating as rating, product_reviews as reviews,\n\t" +
-               "C.manager_id, campaign_id\n" +
-        "FROM Product P Join Seller USING (seller_id) Join Campaign C USING (seller_id)\n" +
-        "WHERE product_description LIKE CONCAT('%', ?, '%')\n" +
-        "ORDER BY P.product_rating DESC, P.product_reviews DESC\n" +
-        "LIMIT 5",
-        new String[] {"Product Category"}, new boolean [] {true},
-        false, true));
+            "Top 5 rated products in a given category.",
+            "SELECT " +
+                "P.product_id, product_name, seller_name,\n\t" +
+                "product_description as description, product_price as price,\n\t" +
+                "product_rating as rating, product_reviews as reviews,\n\t" +
+                "C.manager_id, campaign_id\n" +
+            "FROM Product P Join Seller USING (seller_id) Join Campaign C USING (seller_id)\n" +
+            "WHERE product_description LIKE CONCAT('%', ?, '%')\n" +
+            "ORDER BY P.product_rating DESC, P.product_reviews DESC\n" +
+            "LIMIT 5",
+            new String[] {"Product Category"}, new boolean [] {true},
+            false, true));
 
         // 4. Insert new product.
         queryArray.add(new QueryData(
-        "INSERT INTO Product \n\t" +
+            "Insert new product.",
+            "INSERT INTO Product \n\t" +
                 "(product_name, seller_id, product_description, " +
                 "product_price)\n" +
-        "VALUES (?,?,?,?);",
-        new String [] {"Product Name", "Seller ID",
-                       "Product Description", "Product Price"},
-        new boolean [] {false, false, false, false},
-        true, true));
+            "VALUES (?,?,?,?);",
+            new String [] {"Product Name", "Seller ID",
+                "Product Description", "Product Price"},
+            new boolean [] {false, false, false, false},
+            true, true));
 
 
         
         // 5.Overview of top 5 performing managers by clicks. 
         queryArray.add(new QueryData(
-         "Select " +
-                 "manager_id, manager_first_name, manager_last_name, \n\t" +
-                 "campaign_id, campaign_name, campaign_clicks \n" +
-         "FROM Account_Manager \n" +
-         "JOIN Campaign USING (manager_id)\n" +
-         "JOIN Campaign_Performance USING (campaign_id) \n" +
-         "WHERE campaign_clicks > (Select avg(campaign_clicks) \n\t\t\t\t\t\t " +
+            "Overview of top 5 performing managers by clicks.",
+            "Select " +
+                "manager_id, manager_first_name, manager_last_name, \n\t" +
+                "campaign_id, campaign_name, campaign_clicks \n" +
+            "FROM Account_Manager \n" +
+            "JOIN Campaign USING (manager_id)\n" +
+            "JOIN Campaign_Performance USING (campaign_id) \n" +
+            "WHERE campaign_clicks > (Select avg(campaign_clicks) \n\t\t\t\t\t\t " +
                                   "FROM Campaign_Performance \n\t\t\t\t\t\t " +
                                   "GROUP BY manager_ID) \n" +
-         "ORDER BY campaign_clicks DESC",
-         null, null, false, false));
+            "ORDER BY campaign_clicks DESC",
+            null, null, false, false));
 
         
         // 6. Overview of top performing ad campaigns and ad groups. 
         queryArray.add(new QueryData(
-         "SELECT " +
+            "Overview of top performing ad campaigns and ad groups.",
+            "SELECT " +
                 "campaign_id, campaign_name, ad_group_name, \n\t" +
                 "ad_group_impressions as impressions, \n\t" +
                 "ad_group_clicks as clicks, ad_group_cpc as cpc, \n\t" +
@@ -124,17 +129,18 @@ public class QueryRunner {
                 "ad_group_orders as orders, \n\t" +
                 "round((ad_group_orders / ad_group_clicks)*100, 2) as \"conv rate(%)\", \n\t" +
                 "ad_group_acos as ACOS, ad_group_roas as ROAS \n" +
-        "FROM Campaign \n" +
-        "JOIN Ad_Group USING(campaign_id) \n" +
-        "JOIN Ad_Group_Performance USING(ad_group_id) \n" +
-        "WHERE ad_group_acos < 0.3 or ad_group_roas > 0.5 \n" +
-        "ORDER BY ad_group_acos, ad_group_id;",
-    	null, null, false, false));
+            "FROM Campaign \n" +
+            "JOIN Ad_Group USING(campaign_id) \n" +
+            "JOIN Ad_Group_Performance USING(ad_group_id) \n" +
+            "WHERE ad_group_acos < 0.3 or ad_group_roas > 0.5 \n" +
+            "ORDER BY ad_group_acos, ad_group_id;",
+    	    null, null, false, false));
         
         
-        // 7. Overview of top performing ad campaigns and ad groups.(User input: ACOS <, ROAS > )
+        // 7. Overview of top performing ad campaigns and ad groups. (User input: ACOS <, ROAS >)
         queryArray.add(new QueryData(
-         "SELECT " +
+            "Overview of top performing ad campaigns and ad groups. (User input: ACOS <, ROAS >)",
+            "SELECT " +
                  "campaign_id, campaign_name, ad_group_name, \n\t" +
                  "ad_group_impressions as impressions, \n\t" +
                  "ad_group_clicks as clicks, ad_group_cpc as cpc, \n\t" +
@@ -143,38 +149,41 @@ public class QueryRunner {
                  "round((ad_group_orders / ad_group_clicks)*100, 2) " +
                  "as \"conv rate(%)\", \n\t" +
                  "ad_group_acos as ACOS, ad_group_roas as ROAS \n" +
-         "FROM Campaign \n" +
-         "JOIN Ad_Group USING (campaign_id) \n" +
-         "JOIN Ad_Group_Performance USING (ad_group_id) \n" +
-         "WHERE ad_group_acos > ? AND ad_group_roas < ? \n" +
-         "ORDER BY ad_group_acos, ad_group_id;",
-         new String [] {"ACOS", "ROAS"}, new boolean [] {false, false},
-         false, true));
+            "FROM Campaign \n" +
+            "JOIN Ad_Group USING (campaign_id) \n" +
+            "JOIN Ad_Group_Performance USING (ad_group_id) \n" +
+            "WHERE ad_group_acos > ? AND ad_group_roas < ? \n" +
+            "ORDER BY ad_group_acos, ad_group_id;",
+            new String [] {"ACOS", "ROAS"}, new boolean [] {false, false},
+            false, true));
         
          // 8. Allow user to search for open ad groups and ad group name 
          // containing the name of a targeted product and ad group type (e.g. 
          // User input: ad group name: tent, keyboard, shirt 
          //             ad group type (sponsored): brand, product
         queryArray.add(new QueryData(
-         "SELECT " +
+            "Search for ad groups and ad group name containing the name " +
+                 "of a targeted product and ad group type.",
+            "SELECT " +
                  "ad_group_id, ad_group_name, ad_group_start, \n\t" +
                  "ad_group_end, ad_group_impressions as impressions, \n\t" +
                  "ad_group_clicks as clicks, ad_group_cpc as cpc, \n\t" +
                  "ad_group_ctr as 'ctr(%)', ad_group_sales as sales, \n\t" +
                  "ad_group_spends as spends, ad_group_acos AS ACOS, \n\t" +
                  "ad_group_roas as ROAS \n" +
-         "FROM Ad_Group \n" +
-         "JOIN Ad_Group_Performance USING (ad_group_id) \n" +
-         "WHERE ad_group_name LIKE CONCAT('%', ?, '%') \n\t" +
+            "FROM Ad_Group \n" +
+            "JOIN Ad_Group_Performance USING (ad_group_id) \n" +
+            "WHERE ad_group_name LIKE CONCAT('%', ?, '%') \n\t" +
                 "AND ad_group_type LIKE CONCAT('%', ?, '%') \n" +
-         "HAVING ad_group_end IS NULL \n" +
-         "ORDER BY sales DESC",
-         new String [] {"Ad Group Name", "Ad Group Type"},
-         new boolean [] {true, true}, false, true));
+            "HAVING ad_group_end IS NULL \n" +
+            "ORDER BY sales DESC",
+            new String [] {"Ad Group Name", "Ad Group Type"},
+            new boolean [] {true, true}, false, true));
 
         // 9. Top performing keyword(click through rate > 0.4 , acos < 0.7, roas > 0.4))
         queryArray.add(new QueryData(
-         "SELECT " +
+            "Top performing keyword.",
+            "SELECT " +
                  "ad_group_name, ad_group_budget, \n\t" +
                  "keyword, keyword_impressions as impressions, \n\t" +
                  "keyword_clicks as clicks , keyword_ctr as 'ctr(%)', \n\t" +
@@ -183,33 +192,34 @@ public class QueryRunner {
                  "as 'conv rate(%)', \n\t" +
                  "keyword_spends as spends , keyword_sales as sales, \n\t" +
                  "keyword_acos as ACOS , keyword_roas as ROAS \n" +
-         "FROM Keyword \n" +
-         "JOIN Ad_Group USING (ad_group_id) \n" +
-         "JOIN Keyword_Performance USING (keyword_id) \n" +
-         "WHERE keyword_ctr > 0.4 AND keyword_acos < 0.7 AND keyword_roas > 0.4 \n" +
-         "ORDER BY keyword_acos asc;",
-         null, null, false, false));
+            "FROM Keyword \n" +
+            "JOIN Ad_Group USING (ad_group_id) \n" +
+            "JOIN Keyword_Performance USING (keyword_id) \n" +
+            "WHERE keyword_ctr > 0.4 AND keyword_acos < 0.7 AND keyword_roas > 0.4 \n" +
+            "ORDER BY keyword_acos asc;",
+            null, null, false, false));
     
-        // 10. Good performing ads groups with sales greater than average.
+        // 10. Top performing ads groups with sales greater than average.
         // User input: campaign_name(includes special strategy-competitor, defensive, generic...)
         queryArray.add(new QueryData(
-         "SELECT " +
+            "Top performing ads groups with sales greater than average.",
+            "SELECT " +
                  "c.campaign_id, c.campaign_name, a.ad_group_start, \n\t" +
                  "a.ad_group_name, p.product_name, \n\t" +
                  "p.product_description as 'prod descript', " +
                  "p.product_price as price, pf.ad_group_orders as orders, \n\t" +
                  "pf.ad_group_sales as sales, \n\t" +
                  "round((ad_group_sales / ad_group_orders), 0) as 'sales unit' \n" +
-         "FROM Campaign c \n" +
-         "JOIN Ad_Group a ON c.campaign_id = a.campaign_id \n" +
-         "JOIN Ad_Group_Performance pf ON a.ad_group_id = pf.ad_group_id \n" +
-         "JOIN Product p ON c.product_id = p.product_id \n" +
-         "WHERE campaign_name LIKE CONCAT('%', ?, '%') \n\t" +
+            "FROM Campaign c \n" +
+            "JOIN Ad_Group a ON c.campaign_id = a.campaign_id \n" +
+            "JOIN Ad_Group_Performance pf ON a.ad_group_id = pf.ad_group_id \n" +
+            "JOIN Product p ON c.product_id = p.product_id \n" +
+            "WHERE campaign_name LIKE CONCAT('%', ?, '%') \n\t" +
                 "AND ad_group_sales > (SELECT avg(ad_group_sales) as 'avg sales' " +
         	                    "\n   \t\t\t\t\t\tFROM Ad_Group_Performance) \n" +
-         "ORDER BY ad_group_sales desc;",
-         new String [] {"Campaign Name"}, new boolean [] {true},
-         false, true));
+            "ORDER BY ad_group_sales desc;",
+            new String [] {"Campaign Name"}, new boolean [] {true},
+            false, true));
     }
     
     public int GetTotalQueries() {
@@ -229,6 +239,12 @@ public class QueryRunner {
     public String GetQueryText(int queryChoice) {
         QueryData e = queryArray.get(queryChoice);
         return e.GetQueryString();        
+    }
+
+    // New method. Returns query title.
+    public String GetQueryTitle(int queryChoice) {
+        QueryData e = queryArray.get(queryChoice);
+        return e.GetTitle();
     }
     
     /**

@@ -10,19 +10,23 @@ package queryrunner;
  * @author mckeem
  */
 public class QueryData {
-     QueryData(String query, String[] parms, boolean [] likeparms,
-              boolean isAction, boolean isParm) {
-        queryString = query;
-        arrayParms = parms;
-        arrayLikeParms = likeparms;
-        this.isAction = isAction;
-        isParms = isParm;
+     QueryData(String title, String query, String[] parms,
+               boolean [] likeparms, boolean isAction, boolean isParm) {
+         queryTitle = title;
+         queryString = query;
+         arrayParms = parms;
+         arrayLikeParms = likeparms;
+         this.isAction = isAction;
+         isParms = isParm;
     }
 
     String GetQueryString()
     {
         return queryString;
     }
+
+    // New method.
+    String GetTitle() { return queryTitle; }
     
     int GetParmAmount() {
         if (arrayParms == null)
@@ -52,7 +56,8 @@ public class QueryData {
     {
         return isParms;
     }
-     
+
+    private String queryTitle;
     private String queryString;
     private String [] arrayParms;
     private boolean isAction;
