@@ -6,21 +6,22 @@ package queryrunner;
  * This is free and unencumbered software released into the public domain.
  */
 
-
-import java.awt.Color;
 import javax.swing.*;
+
 /**
  * Query frame.
- * @author mckeem
+ *
+ * @author mckeem, hadley, cooper, li
  */
 public class QueryFrame extends javax.swing.JFrame {
 
-/**
- * This is the constructer for QueryFrame. It will initialize the Combobox with
- * the various queries that are part of the QueryData that has been passed to it.
- * It will also set the default state of the Command Buttons and combo boxes.
- * @param queryrunnerObj 
- */
+    /**
+     * This is the constructer for QueryFrame. It will initialize the Combobox with
+     * the various queries that are part of the QueryData that has been passed to it.
+     * It will also set the default state of the Command Buttons and combo boxes.
+     *
+     * @param queryrunnerObj
+     */
     public QueryFrame(QueryRunner queryrunnerObj) {
         initComponents();
         m_parmlabels = new JLabel[] {jLabel1, jLabel2, jLabel3, jLabel4, jLabel9,
@@ -297,17 +298,18 @@ public class QueryFrame extends javax.swing.JFrame {
         
     } //GEN-LAST:event_jComboBox1ActionPerformed
 
-    
-/**
- * This is the Action handler for the "RUN QUERY" button. It tries to identify
- * If it is an action query first. If it is, it will take the parameter data from
- * the various textboxes and create a parameter array that it will eventually
- * pass to the ExecuteQuery function.
- * 
- * If it is a query that returns a resultset, it will create a JTABLE which is a
- * GUI Control that enables the resultset data to transferred to it.
- * @param evt Java Event Handler
- */
+
+    /**
+     * This is the Action handler for the "RUN QUERY" button. It tries to identify
+     * If it is an action query first. If it is, it will take the parameter data from
+     * the various textboxes and create a parameter array that it will eventually
+     * pass to the ExecuteQuery function.
+     *
+     * If it is a query that returns a resultset, it will create a JTABLE which is a
+     * GUI Control that enables the resultset data to transferred to it.
+     *
+     * @param evt Java Event Handler
+     */
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
         //GEN-FIRST:event_jButton2ActionPerformed
 
@@ -352,7 +354,6 @@ public class QueryFrame extends javax.swing.JFrame {
                 m_jTable = new JTable(allData, headers);
                 
                 m_jTable.setBounds(100, 100, 100, 80);
-                //Color ivory = new Color(255,255,208);
                 m_jTable.setOpaque(false);
                 m_jTable.setBackground(new java.awt.Color(229, 234, 236));
                 m_scrollPane = new JScrollPane(m_jTable);

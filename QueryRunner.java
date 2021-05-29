@@ -14,10 +14,14 @@ import java.util.Scanner;
  * class which will enable MYSQL queries to be executed. It also has functions
  * to provide the returned data from the Queries. Currently the eventHandlers in
  * QueryFrame call these functions in order to run the Queries.
+ *
+ * @author mckeem, hadley, cooper, li
  */
 public class QueryRunner {
 
-
+    /**
+     * Instantiates a new query runner.
+     */
     public QueryRunner() {
         this.jdbcData = new QueryJDBC();
         updateAmount = 0;
@@ -233,27 +237,54 @@ public class QueryRunner {
             new String [] {"Campaign Name"}, new boolean [] {true},
             false, true));
     }
-    
+
+    /**
+     * Gets total number of queries.
+     *
+     * @return total
+     */
     public int GetTotalQueries() {
         return queryArray.size();
     }
-    
+
+    /**
+     * Gets the parameter amount for a query.
+     *
+     * @param queryChoice the query choice
+     * @return the index of the query in the array
+     */
     public int GetParameterAmtForQuery(int queryChoice) {
         QueryData e = queryArray.get(queryChoice);
         return e.GetParmAmount();
     }
-              
+
+    /**
+     * Gets the parameter text.
+     *
+     * @param queryChoice the query choice
+     * @param paramNum the parmnum
+     * @return the string
+     */
     public String GetParamText(int queryChoice, int paramNum) {
        QueryData e = queryArray.get(queryChoice);
        return e.GetParamText(paramNum);
-    }   
+    }
 
+    /**
+     * Gets the query text.
+     *
+     * @return the string.
+     */
     public String GetQueryText(int queryChoice) {
         QueryData e = queryArray.get(queryChoice);
         return e.GetQueryString();        
     }
 
-    // New method. Returns query title.
+    /**
+     * Gets the query description.
+     *
+     * @return the string.
+     */
     public String GetQueryTitle(int queryChoice) {
         QueryData e = queryArray.get(queryChoice);
         return e.GetTitle();
@@ -262,6 +293,7 @@ public class QueryRunner {
     /**
      * Function will return how many rows were updated as a result
      * of the update query.
+     *
      * @return Returns how many rows were updated
      */
     public int GetUpdateAmount() {
@@ -270,6 +302,7 @@ public class QueryRunner {
     
     /**
      * Function will return ALL of the Column Headers from the query.
+     *
      * @return Returns array of column headers
      */
     public String [] GetQueryHeaders() {
@@ -280,27 +313,52 @@ public class QueryRunner {
      * After the query has been run, all of the data has been captured into
      * a multi-dimensional string array which contains all the row's. For each
      * row it also has all the column data. It is in string format.
-     * @return multi-dimensional array of String data based on the resultset 
+     *
+     * @return multi-dimensional array of String data based on the resultset
      * from the query
      */
     public String[][] GetQueryData() {
         return jdbcData.GetData();
     }
 
+    /**
+     * Get title of application.
+     *
+     * @return title.
+     */
     public String GetProjectTeamApplication() {
         return projectTeamApplication;
     }
+
+    /**
+     * Get whether query is action (insert or update).
+     *
+     * @param queryChoice
+     * @return true or false.
+     */
     public boolean isActionQuery (int queryChoice) {
         QueryData e = queryArray.get(queryChoice);
         return e.IsQueryAction();
     }
-    
+
+    /**
+     * Checks if is parameter query.
+     *
+     * @param queryChoice the query choice
+     * @return true, if is parameter query
+     */
     public boolean isParameterQuery(int queryChoice) {
         QueryData e = queryArray.get(queryChoice);
         return e.IsQueryParm();
     }
-    
-     
+
+    /**
+     * Execute query.
+     *
+     * @param queryChoice the query choice
+     * @param params the parms
+     * @return true, if successful
+     */
     public boolean ExecuteQuery(int queryChoice, String [] params) {
         boolean bOK;
         QueryData e = queryArray.get(queryChoice);
@@ -308,7 +366,14 @@ public class QueryRunner {
                 e.GetAllLikeParams());
         return bOK;
     }
-    
+
+    /**
+     * Execute update.
+     *
+     * @param queryChoice the query choice
+     * @param parms the parms
+     * @return true, if successful
+     */
     public boolean ExecuteUpdate(int queryChoice, String [] parms) {
         boolean bOK;
         QueryData e = queryArray.get(queryChoice);
@@ -316,7 +381,16 @@ public class QueryRunner {
         updateAmount = jdbcData.GetUpdateCount();
         return bOK;
     }
-      
+
+    /**
+     * Connect to database.
+     *
+     * @param szHost the sz host
+     * @param szUser the sz user
+     * @param szPass the sz pass
+     * @param szDatabase the sz database
+     * @return true, if successful
+     */
     public boolean Connect(String szHost, String szUser, String szPass,
                            String szDatabase) {
         boolean bConnect = jdbcData.ConnectToDatabase(szHost, szUser, szPass,
@@ -325,7 +399,12 @@ public class QueryRunner {
             error = jdbcData.GetError();
         return bConnect;
     }
-    
+
+    /**
+     * Disconnect from database.
+     *
+     * @return true, if successful
+     */
     public boolean Disconnect() {
         // Disconnect the JDBCData Object
         boolean bConnect = jdbcData.CloseDatabase();
@@ -333,18 +412,25 @@ public class QueryRunner {
             error = jdbcData.GetError();
         return true;
     }
-    
+
+    /**
+     * Gets errors.
+     *
+     * @return the string
+     */
     public String GetError() {
         return error;
     }
  
-    private final QueryJDBC jdbcData;
-    private String error;
-    private final String projectTeamApplication;
-    private final ArrayList<QueryData> queryArray;
-    private int updateAmount;
+    private final QueryJDBC jdbcData;               // JDBC data
+    private String error;                           // Errors.
+    private final String projectTeamApplication;    // Title of app.
+    private final ArrayList<QueryData> queryArray;  // Array of queries
+    private int updateAmount;                       // Number of lines updated.
             
     /**
+     * Runs console or GUI version of app, depending on argument provided.
+     *
      * @param args the command line arguments.
      */
     public static void main(String[] args) {
@@ -451,15 +537,6 @@ public class QueryRunner {
                 if (bOK = false) {
                     queryrunner.Disconnect();
                 }
-
-
-                // NOTE - IF THERE ARE ANY ERRORS, please print the Error output
-                // NOTE - The QueryRunner functions call the various JDBC Functions that are in QueryJDBC. If you would rather code JDBC
-                // functions directly, you can choose to do that. It will be harder, but that is your option.
-                // NOTE - You can look at the QueryRunner API calls that are in QueryFrame.java for assistance. You should not have to 
-                //    alter any code in QueryJDBC, QueryData, or QueryFrame to make this work.
-//                System.out.println("Please write the non-gui functionality");
-                
             }
         }
  
