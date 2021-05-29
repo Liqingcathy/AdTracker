@@ -367,7 +367,7 @@ public class QueryRunner {
                         "database-1.crvrlpwsgqaw.us-east-1.rds.amazonaws.com",
                         "admin", "group3aws", "Group3");
 
-                System.out.println("\nADOPTIMIZER\n\nEach query will be " +
+                System.out.println("\nADTRACKER\n\nEach query will be " +
                         "printed, followed by its results. If the\nquery " +
                         "requires parameters, the user will be prompted for them.");
 
