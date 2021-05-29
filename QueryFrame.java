@@ -311,7 +311,7 @@ public class QueryFrame extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
         //GEN-FIRST:event_jButton2ActionPerformed
 
-        jTextArea2.setText("");        
+        jTextArea2.setText("Query " + (m_queryChoice + 1) + " completed.");
         if (this.m_queryrunner.isActionQuery(m_queryChoice) == false)
             jPanel2.setVisible(true);
         

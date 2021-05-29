@@ -65,7 +65,7 @@ public class QueryRunner {
         queryArray.add(new QueryData("Search for a product to see product overview.\n "
         		+ "(Product name format: brand name + category). \n"
         		+ "To see a specific product, enter a partial brand name keyword.\n"
-        		+ "To see an overiew of a certain category, enter a category name.\n",
+        		+ "To see an overview of a certain category, enter a category name.\n",
             "SELECT " +
                 "seller_name, product_name, product_rating, \n\t" +
                 "product_reviews product_price \n" +
