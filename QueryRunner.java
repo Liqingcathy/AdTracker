@@ -52,8 +52,8 @@ public class QueryRunner {
         // 1. Allows users to catch a glimpse of the top 5 rated products in a given
         // category User input: outdoors, electronics, clothing
         queryArray.add(new QueryData(
-              "Top 5 rated products in a given category.\n"
-            + "Please enter category from \"outdoors\", \"electronics\", \"clothing\"\n",
+              "Top 5 rated products in a given category.\n\n"
+            + "Please enter category from:\n\"outdoors\", \"electronics\", or \"clothing\"\n",
             "SELECT " +
                 "P.product_id, product_name, seller_name,\n\t" +
                 "product_description as description, product_price as price,\n\t" +
@@ -67,10 +67,10 @@ public class QueryRunner {
             false, true));
 
         // 2. Search for a product.
-        queryArray.add(new QueryData("Search for a product to see product overview.\n "
-        		+ "(Product name format: brand name + category). \n"
-        		+ "To see a specific product, enter a partial brand name keyword.\n"
-        		+ "To see an overview of a certain category, enter a category name.\n",
+        queryArray.add(new QueryData("Search for a product to see product overview.\n"
+        		+ "(Product name format: brand name + category).\n\n"
+        		+ "To see a specific product,\nenter a partial brand name keyword.\n\n"
+        		+ "To see an overview of a certain category,\nenter a category name.",
             "SELECT " +
                 "seller_name, product_name, product_rating, \n\t" +
                 "product_reviews product_price \n" +
@@ -112,7 +112,7 @@ public class QueryRunner {
         
         // 5.Overview of top 5 performing managers by clicks. 
         queryArray.add(new QueryData(
-            "Overview of top performing managers by product clicks.",
+            "Overview of top performing managers by product\nclicks.",
             "Select " +
                 "manager_id, manager_first_name, manager_last_name, \n\t" +
                 "campaign_id, campaign_name, campaign_clicks \n" +
@@ -128,7 +128,7 @@ public class QueryRunner {
         
         // 6. Overview of top performing ad campaigns and ad groups. 
         queryArray.add(new QueryData(
-            "Overview of top performing ad campaigns and ad groups.",
+            "Overview of top performing ad campaigns\nand ad groups.",
             "SELECT " +
                 "campaign_id, campaign_name, ad_group_name, \n\t" +
                 "ad_group_impressions as impressions, \n\t" +
@@ -147,7 +147,7 @@ public class QueryRunner {
         
         // 7. Overview of top performing ad campaigns and ad groups. (User input: ACOS <, ROAS >)
         queryArray.add(new QueryData(
-            "Overview of top performing ad campaigns and ad groups by ACOS and ROAS.\n"
+            "Overview of top performing ad campaigns\nand ad groups by ACOS and ROAS.\n\n"
             + "Please enter decimal number between 0.1-1 to filter\n"
             + "performance whose ACOS < input, ROAS > input\n"
             + "**ACOS-Ads spends/Sales,the lower the better.\n"
@@ -174,7 +174,7 @@ public class QueryRunner {
          // User input: ad group name: tent, keyboard, shirt 
          //             ad group type (sponsored): brand, product
         queryArray.add(new QueryData(
-            "Search for ad groups and ad group name containing the name " +
+            "Search for ad groups and ad group name containing\nthe name " +
                  "of a targeted product and ad group type.",
             "SELECT " +
                  "ad_group_id, ad_group_name, ad_group_start, \n\t" +
@@ -194,9 +194,9 @@ public class QueryRunner {
 
         // 9. Top performing keyword(click through rate > 0.4 , acos < 0.7, roas > 0.4))
         queryArray.add(new QueryData(
-            "Top performing keyword.\n"
-            + "click through rate > 0.4\n"
-            + "acos < 0.7, roas > 0.4",
+            "Top performing keyword.\n\n"
+            + "Click through rate > 0.4\n"
+            + "ACOS < 0.7\nROAS > 0.4",
             "SELECT " +
                  "ad_group_name, ad_group_budget, \n\t" +
                  "keyword, keyword_impressions as impressions, \n\t" +
@@ -216,8 +216,8 @@ public class QueryRunner {
         // 10. Top performing ads groups with sales greater than average.
         // User input: campaign_name(includes special strategy-competitor, defensive, generic...)
         queryArray.add(new QueryData(
-            "Top performing ads groups with sales greater than average sales.\n"
-            + "Part of campaign names indicate campaign strategy with "
+            "Top performing ads groups with sales greater than\naverage sales.\n\n"
+            + "Part of campaign names indicate campaign strategy\nwith "
             + "\"competitor\",  \"defensive\",  \"generic\" keywords\n",
             "SELECT " +
                  "c.campaign_id, c.campaign_name, a.ad_group_start, \n\t" +
