@@ -10,49 +10,80 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
+ * The Class QueryJDBC makes a connection to the database.
  *
- * @author mckeem
+ * @author mckeem, hadley, cooper, li
  */
-
-
 public class QueryJDBC {
 
+    // The connection
     public Connection conn = null;
+    // The database drive.
     static final String DB_DRV = "com.mysql.jdbc.Driver";
-    String error ="";
-    String url;
-    String user;
-    String [] headers;
-    String [][] allRows;
-    int updateAmount = 0;
-       
+    String error ="";       // Connection error
+    String url;             // Url of the connection
+    String user;            // User name
+    String [] headers;      // Headers of query
+    String [][] allRows;    // Data of query
+    int updateAmount = 0;   // Rows updated
+
+    /**
+     * Instantiates a new query JDBC.
+     */
     QueryJDBC ()
     {
         updateAmount = 0;
     }
-    
+
+    /**
+     * Gets the error.
+     *
+     * @return the string
+     */
     public String GetError()
     {
         return error;
     }
 
+    /**
+     * Gets the headers.
+     *
+     * @return the string[] headers
+     */
     public String [] GetHeaders()
     {
         return this.headers;
     }
-    
+
+    /**
+     * Gets the data.
+     *
+     * @return the string[][] with data
+     */
     public String [][] GetData()
     {
         return this.allRows;
     }
-    
+
+    /**
+     * Gets the update count.
+     *
+     * @return the amount of rows updated
+     */
     public int GetUpdateCount()
     {
         return updateAmount;
     }
-    
-    // We think we can always setString on Parameters. Not sure if this is true.
-    // GetString on Results is fine though
+
+
+    /**
+     * Execute query.
+     *
+     * @param szQuery the query
+     * @param params the parameters
+     * @param likeParams the parameters using like
+     * @return true, if successful
+     */
     public boolean ExecuteQuery(String szQuery, String [] params,
                                 boolean [] likeParams) {
         PreparedStatement preparedStatement = null;        
@@ -73,14 +104,11 @@ public class QueryJDBC {
                 }
                 preparedStatement.setString(i+1, parm);
             }
-
-            //preparedStatement.setString(1,  "%" + szContact + "%");
             resultSet = preparedStatement.executeQuery();
-
             ResultSetMetaData rsmd = resultSet.getMetaData(); 
             nColAmt = rsmd.getColumnCount();
+
             headers = new String [nColAmt];
-            
             for (int i=0; i< nColAmt; i++) {
                 headers[i] = rsmd.getColumnLabel(i+1);
             }
@@ -123,23 +151,29 @@ public class QueryJDBC {
         return true;
     }
 
-    
+    /**
+     * Execute update.
+     *
+     * @param szQuery the query
+     * @param parms the parameters
+     * @return true, if successful
+     */
      public boolean ExecuteUpdate(String szQuery, String [] parms) {
         PreparedStatement preparedStatement = null;        
 
         boolean bOK = true;
-        updateAmount =0;
+        updateAmount = 0;
         
         // Try to get the columns and the amount of columns
         try {
-            preparedStatement=this.conn.prepareStatement(szQuery);
+            preparedStatement = this.conn.prepareStatement(szQuery);
 
             int nParamAmount = parms.length;
 
-            for (int i=0; i < nParamAmount; i++) {
-                preparedStatement.setString(i+1, parms[i]);
+            for (int i = 0; i < nParamAmount; i++) {
+                preparedStatement.setString(i + 1, parms[i]);
             }
-            updateAmount =preparedStatement.executeUpdate();
+            updateAmount = preparedStatement.executeUpdate();
             preparedStatement.close();          
 
         } catch (SQLException ex) {
@@ -147,7 +181,6 @@ public class QueryJDBC {
             this.error = "SQLException: " + ex.getMessage();
             this.error += "SQLState: " + ex.getSQLState();
             this.error += "VendorError: " + ex.getErrorCode();
-
             System.out.println("SQLException: " + ex.getMessage());
             System.out.println("SQLState: " + ex.getSQLState());
             System.out.println("VendorError: " + ex.getErrorCode());
@@ -155,9 +188,17 @@ public class QueryJDBC {
         }
         return true;
     }
-   
-    
-                 
+
+
+    /**
+     * Connect to database.
+     *
+     * @param host the host
+     * @param user the user
+     * @param pass the pass
+     * @param database the database
+     * @return true, if successful
+     */
     public boolean ConnectToDatabase(String host, String user, String pass,
                                      String database) {
         String url;
@@ -184,9 +225,11 @@ public class QueryJDBC {
         return true;
     }
 
-    /* Document this function
-    // TODO    
-    */
+    /**
+     * Closes the database connection.
+     *
+     * @return true, if successful, false if not.
+     */
     public boolean CloseDatabase() {
         try {
             conn.close();

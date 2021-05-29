@@ -9,7 +9,7 @@ package queryrunner;
  * The Class QueryData creates query objects
  * with the associated parameters.
  *
- * @author mckeem, hadley
+ * @author mckeem, hadley, cooper, li
  */
 public class QueryData {
 
