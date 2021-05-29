@@ -1,9 +1,9 @@
 package queryrunner;
 
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Group 3
+ * CPSC 5021, Seattle University
+ * This is free and unencumbered software released into the public domain.
  */
 
 
@@ -336,7 +336,7 @@ public class QueryFrame extends javax.swing.JFrame {
                         m_queryrunner.GetUpdateAmount()));
             }
             else {
-                this.jTextArea2.setText(m_queryrunner.GetError());
+                this.jTextArea2.setText("Check input.");
             }
         }
         else {

@@ -1,7 +1,7 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Group 3
+ * CPSC 5021, Seattle University
+ * This is free and unencumbered software released into the public domain.
  */
 package queryrunner;
 
@@ -16,7 +16,8 @@ import java.util.Scanner;
  * QueryFrame call these functions in order to run the Queries.
  */
 public class QueryRunner {
-    
+
+
     public QueryRunner() {
         this.jdbcData = new QueryJDBC();
         updateAmount = 0;
