@@ -236,7 +236,7 @@ public class QueryFrame extends javax.swing.JFrame {
            if (bOK) {
                jConnectButton.setText("Disconnect");    
                jComboBoxQuery.setEnabled(true);
-               jBtnRunQuery.setEnabled(true);  
+               jBtnRunQuery.setEnabled(true);
            }
         }
         else {
@@ -244,7 +244,7 @@ public class QueryFrame extends javax.swing.JFrame {
            if (bOK) {
                jConnectButton.setText("Connect");
                jComboBoxQuery.setEnabled(true);
-               jBtnRunQuery.setEnabled(true); 
+               jBtnRunQuery.setEnabled(true);
            }
         }
         
@@ -372,7 +372,6 @@ public class QueryFrame extends javax.swing.JFrame {
     private javax.swing.JButton jConnectButton;
     private javax.swing.JButton jBtnRunQuery;
     private javax.swing.JComboBox<String> jComboBoxQuery;
-    private javax.swing.JComboBox<String> jComboBoxQuery2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -407,7 +406,6 @@ public class QueryFrame extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField9;
     // End of variables declaration
     // GEN-END:variables
-
 
     private final JLabel[] m_parmlabels;
     private JTextField [] m_textvals;
