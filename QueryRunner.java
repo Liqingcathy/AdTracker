@@ -164,7 +164,7 @@ public class QueryRunner {
             "FROM Campaign \n" +
             "JOIN Ad_Group USING (campaign_id) \n" +
             "JOIN Ad_Group_Performance USING (ad_group_id) \n" +
-            "WHERE ad_group_acos > ? AND ad_group_roas < ? \n" +
+            "WHERE ad_group_acos < ? AND ad_group_roas > ? \n" +
             "ORDER BY ad_group_acos, ad_group_id;",
             new String [] {"ACOS", "ROAS"}, new boolean [] {false, false},
             false, true));
