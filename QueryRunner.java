@@ -30,24 +30,6 @@ public class QueryRunner {
         
         this.projectTeamApplication="ADTRACKER";
 
-        /*
-        Each row that is added to m_queryArray is a separate query. It does
-        not work on stored procedure calls. The 'new' Java keyword is a way of
-        initializing the data that will be added to QueryArray.
-
-        Format for each row of m_queryArray is: (QueryText, ParamaterLabelArray[],
-        LikeParameterArray[], IsItActionQuery, IsItParameterQuery).
-
-        QueryText is a String that represents your query.
-            - Label Array: null if there is no parameters in your query,
-            otherwise put in the parameter names.
-            - LikeParameter Array: necessary to tell QueryRunner which parameter
-            has a LIKE Clause. If you have no parameters, put in null. Put in
-            false for parameters that don't use 'like' and true for ones that do.
-            - IsItActionQuery: mark it true if it is, otherwise false.
-            - IsItParameterQuery: mark it true if it is, otherwise false.
-        */
-
         // PRODUCT QUERIES
         // 1. Allows users to catch a glimpse of the top 5 rated products in a given
         // category User input: outdoors, electronics, clothing
