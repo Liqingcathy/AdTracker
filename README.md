@@ -13,3 +13,6 @@ Relational Database Design and Development
 ![Competitor](https://user-images.githubusercontent.com/53241017/198905143-3ab1fd23-3bda-452a-a5c0-21e80b293915.png)
 ![Performance](https://user-images.githubusercontent.com/53241017/198905145-61965fa7-94a4-4650-b19d-de583b2603a3.png)
 
+## ER Model Function Visualization In Tableau Report
+![image](https://user-images.githubusercontent.com/53241017/202951544-eb4f0055-a4f1-4df5-b14b-694a67851747.png)
+![image](https://user-images.githubusercontent.com/53241017/202951526-d4afd1bf-1509-4335-a07e-cd9c64fdd953.png)
